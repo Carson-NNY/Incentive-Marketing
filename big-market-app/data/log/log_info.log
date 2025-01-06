@@ -1,0 +1,24 @@
+25-01-06.12:58:31.420 [main            ] INFO  AwardDaoTest           - Starting AwardDaoTest using Java 1.8.0_311 on liuguanzedeMBP.fios-router.home with PID 6744 (started by carson in /Users/carson/Desktop/Microservice/big-market/big-market-app)
+25-01-06.12:58:31.422 [main            ] INFO  AwardDaoTest           - The following 1 profile is active: "dev"
+25-01-06.12:58:34.500 [main            ] INFO  AwardDaoTest           - Started AwardDaoTest in 3.54 seconds (JVM running for 4.62)
+25-01-06.12:58:35.192 [main            ] INFO  HikariDataSource       - HikariPool-1 - Starting...
+25-01-06.12:58:36.353 [main            ] INFO  HikariDataSource       - HikariPool-1 - Start completed.
+25-01-06.12:58:36.440 [main            ] INFO  AwardDaoTest           - test_queryAwardList: []
+25-01-06.12:58:36.465 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariPool-1 - Shutdown initiated...
+25-01-06.12:58:36.524 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariPool-1 - Shutdown completed.
+25-01-06.13:00:08.425 [main            ] INFO  AwardDaoTest           - Starting AwardDaoTest using Java 1.8.0_311 on liuguanzedeMBP.fios-router.home with PID 6809 (started by carson in /Users/carson/Desktop/Microservice/big-market/big-market-app)
+25-01-06.13:00:08.426 [main            ] INFO  AwardDaoTest           - The following 1 profile is active: "dev"
+25-01-06.13:00:10.546 [main            ] INFO  AwardDaoTest           - Started AwardDaoTest in 2.573 seconds (JVM running for 3.475)
+25-01-06.13:00:10.804 [main            ] INFO  HikariDataSource       - HikariPool-1 - Starting...
+25-01-06.13:00:11.401 [main            ] INFO  HikariDataSource       - HikariPool-1 - Start completed.
+25-01-06.13:00:11.713 [main            ] INFO  AwardDaoTest           - test_queryAwardList: []
+25-01-06.13:00:11.728 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariPool-1 - Shutdown initiated...
+25-01-06.13:00:11.737 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariPool-1 - Shutdown completed.
+25-01-06.13:02:55.985 [main            ] INFO  AwardDaoTest           - Starting AwardDaoTest using Java 1.8.0_311 on liuguanzedeMBP.fios-router.home with PID 6889 (started by carson in /Users/carson/Desktop/Microservice/big-market/big-market-app)
+25-01-06.13:02:55.986 [main            ] INFO  AwardDaoTest           - The following 1 profile is active: "dev"
+25-01-06.13:02:58.076 [main            ] INFO  AwardDaoTest           - Started AwardDaoTest in 2.521 seconds (JVM running for 3.608)
+25-01-06.13:02:58.351 [main            ] INFO  HikariDataSource       - HikariPool-1 - Starting...
+25-01-06.13:02:58.862 [main            ] INFO  HikariDataSource       - HikariPool-1 - Start completed.
+25-01-06.13:02:59.098 [main            ] INFO  AwardDaoTest           - test_queryAwardList: [{"awardConfig":"1,100","awardDesc":"用户积分【优先透彻规则范围，如果没有则走配置】","awardId":101,"awardKey":"user_credit_random"},{"awardConfig":"5","awardDesc":"OpenAI 增加使用次数","awardId":102,"awardKey":"openai_use_count"},{"awardConfig":"10","awardDesc":"OpenAI 增加使用次数","awardId":103,"awardKey":"openai_use_count"},{"awardConfig":"20","awardDesc":"OpenAI 增加使用次数","awardId":104,"awardKey":"openai_use_count"},{"awardConfig":"gpt-4","awardDesc":"OpenAI 增加模型","awardId":105,"awardKey":"openai_model"},{"awardConfig":"dall-e-2","awardDesc":"OpenAI 增加模型","awardId":106,"awardKey":"openai_model"},{"awardConfig":"dall-e-3","awardDesc":"OpenAI 增加模型","awardId":107,"awardKey":"openai_model"},{"awardConfig":"100","awardDesc":"OpenAI 增加使用次数","awardId":108,"awardKey":"openai_use_count"},{"awardConfig":"gpt-4,dall-e-2,dall-e-3","awardDesc":"OpenAI 增加模型","awardId":109,"awardKey":"openai_model"}]
+25-01-06.13:02:59.111 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariPool-1 - Shutdown initiated...
+25-01-06.13:02:59.150 [SpringApplicationShutdownHook] INFO  HikariDataSource       - HikariPool-1 - Shutdown completed.
