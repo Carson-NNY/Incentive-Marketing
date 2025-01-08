@@ -2,6 +2,7 @@ package cn.bugstack.test.infrastructure;
 
 import cn.bugstack.infrastructure.persistent.dao.IAwardDao;
 import cn.bugstack.infrastructure.persistent.po.Award;
+import cn.bugstack.infrastructure.persistent.po.StrategyAward;
 import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -24,7 +25,6 @@ public class AwardDaoTest {
   public void test_queryAwardList() {
     List<Award> awards = awardDao.queryAwardList();
     log.info("test_queryAwardList: {}", JSON.toJSONString(awards));
-
   }
 
 }

@@ -1,5 +1,6 @@
 package cn.bugstack.infrastructure.persistent.po;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
