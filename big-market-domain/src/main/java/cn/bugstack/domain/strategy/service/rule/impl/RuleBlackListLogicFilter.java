@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 
 @Slf4j
 @Component
-@LogicStrategy(logicMode = DefaultLogicFactory.LogicModel.RULE_BLACKLIST) // 对于这个类加一个标记, 为了我们注入之后转换map对象来使用的, 见 annotation/LogicStrategy.java
+@LogicStrategy(logicMode = DefaultLogicFactory.LogicModel.RULE_BLACKLIST) // 对于这个类通过RULE_BLACKLIST的LogicModel 来注册到LogicStrategy, 见 annotation/LogicStrategy.java
 public class RuleBlackListLogicFilter implements ILogicFilter<RuleActionEntity.RaffleBeforeEntity> {
 
   @Resource

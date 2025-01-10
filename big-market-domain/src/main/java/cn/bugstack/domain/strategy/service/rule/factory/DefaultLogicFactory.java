@@ -34,7 +34,7 @@ public class DefaultLogicFactory {
   //    This dynamic registration removes the need for manual bean registration or hardcoding logic filters.
   //    It enables a plug-and-play architecture—new filters can be added just by implementing ILogicFilter<?> and annotating them with @LogicStrategy.
   public DefaultLogicFactory(List<ILogicFilter<?>> logicFilters) {
-    logicFilters.forEach(logic -> {
+    logicFilters.forEach(logic -> { // 这里的logic是RuleBlackListLogicFilter 或者 RuleWeightLogicFilter
       // LogicStrategy is a custom annotation that helps the factory identify and register logic filters (in our case: RuleBlackListLogicFilter...)
       // associates a logic filter with a logic mode.
       LogicStrategy strategy = AnnotationUtils.findAnnotation(logic.getClass(), LogicStrategy.class);
@@ -58,9 +58,10 @@ public class DefaultLogicFactory {
   public enum LogicModel {
 
     //Encapsulates the supported logic modes as constants.
-    RULE_WIGHT("rule_weight","【抽奖前规则】根据抽奖权重返回可抽奖范围KEY"),
-    RULE_BLACKLIST("rule_blacklist","【抽奖前规则】黑名单规则过滤，命中黑名单则直接返回"),
-
+    RULE_WIGHT("rule_weight", "【抽奖前规则】根据抽奖权重返回可抽奖范围KEY", "before"),
+    RULE_BLACKLIST("rule_blacklist", "【抽奖前规则】黑名单规则过滤，命中黑名单则直接返回", "before"),
+    RULE_LOCK("rule_lock", "【抽奖中规则】抽奖n次后，对应奖品可解锁抽奖", "center"),
+    RULE_LUCK_AWARD("rule_luck_award", "【抽奖后规则】幸运奖兜底", "after"),
     ;
 
     //Why Use an Enum?:
@@ -68,7 +69,15 @@ public class DefaultLogicFactory {
     //    Improves code readability and reduces the chance of errors (e.g., typos in string keys).
     private final String code;
     private final String info;
+    private final String type;
 
+    public static boolean isCenter(String code){
+      return "center".equals(LogicModel.valueOf(code.toUpperCase()).type);
+    }
+
+    public static boolean isAfter(String code){
+      return "after".equals(LogicModel.valueOf(code.toUpperCase()).type);
+    }
   }
 
 }
