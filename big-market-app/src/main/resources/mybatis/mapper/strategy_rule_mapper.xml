@@ -29,7 +29,7 @@
     <select id="queryStrategyRuleValue" parameterType="cn.bugstack.infrastructure.persistent.po.StrategyRule" resultType="java.lang.String">
         select rule_value from strategy_rule
         where strategy_id = #{strategyId} and rule_model = #{ruleModel}
-        <if test="awardId != null">
+        <if test="awardId != null">  -- 这里的判断是为了防止awardId为空时，sql语句报错
             and award_id = #{awardId}
         </if>
     </select>
