@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 /** 兵工厂: 负责初始化策略计算 */
-
+// 负责把策略配置的奖品概率转换成抽奖概率表
 @Slf4j
 @Service
 public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatch {

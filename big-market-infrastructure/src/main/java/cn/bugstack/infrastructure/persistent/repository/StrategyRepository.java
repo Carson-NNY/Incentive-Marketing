@@ -98,7 +98,6 @@ public class StrategyRepository implements IStrategyRepository {
     String cacheKey = Constants.RedisKey.STRATEGY_KEY + strategyId;
     StrategyEntity strategyEntity = redisService.getValue(cacheKey);
     if (null != strategyEntity) return strategyEntity;
-
     Strategy strategy = strategyDao.queryStrategyByStrategyId(strategyId);
     if (null == strategy) return StrategyEntity.builder().build();
     strategyEntity = StrategyEntity.builder()
@@ -124,6 +123,11 @@ public class StrategyRepository implements IStrategyRepository {
         .ruleValue(strategyRuleRes.getRuleValue())
         .ruleDesc(strategyRuleRes.getRuleDesc())
         .build();
+  }
+
+  @Override
+  public String queryStrategyRuleValue(Long strategyId, String ruleModel) {
+    return queryStrategyRuleValue(strategyId, null, ruleModel);
   }
 
   @Override
