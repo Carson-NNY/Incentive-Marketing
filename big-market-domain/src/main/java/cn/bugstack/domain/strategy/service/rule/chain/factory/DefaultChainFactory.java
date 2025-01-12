@@ -24,6 +24,14 @@ public class DefaultChainFactory {
   // for the ILogicChain implementations (BlackListLogicChain, DefaultLogicChain,
   // RuleWeightLogicChain, etc.) are scanned and registered. This is because of the combination of
   // Spring's @Component scanning and the constructor-based dependency injection mechanism
+
+  //Spring uses constructor-based dependency injection to provide values for these parameters. Here's how Spring resolves the logicChainGroup:
+  //
+  //    It looks for all beans of type ILogicChain in the application context.
+  //    It maps the bean name (specified in the @Component annotation) to the corresponding bean instance.
+  //    It creates a Map<String, ILogicChain> where:
+  //        The keys are the bean names (rule_blacklist, etc.).
+  //        The values are the corresponding ILogicChain implementations (BlackListLogicChain, etc.).
   private DefaultChainFactory(Map<String, ILogicChain> logicChainGroup, IStrategyRepository repository) {
     this.logicChainGroup = logicChainGroup;
     this.repository = repository;
@@ -49,7 +57,7 @@ public class DefaultChainFactory {
       current = current.appendNext(nextChain);
     }
 
-    // add the defualt chain to the end
+    // add the default chain to the end
     current.appendNext(logicChainGroup.get("default"));
     return logicChain;
   }
