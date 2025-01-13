@@ -1,60 +1,52 @@
 package cn.bugstack.domain.strategy.service.raffle;
 
-import cn.bugstack.domain.strategy.model.entity.RaffleFactorEntity;
-import cn.bugstack.domain.strategy.model.entity.RuleActionEntity;
-import cn.bugstack.domain.strategy.model.entity.RuleMatterEntity;
-import cn.bugstack.domain.strategy.model.valobj.RuleLogicCheckTypeVO;
+import cn.bugstack.domain.strategy.model.valobj.RuleTreeVO;
+import cn.bugstack.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 import cn.bugstack.domain.strategy.repository.IStrategyRepository;
 import cn.bugstack.domain.strategy.service.AbstractRaffleStrategy;
 import cn.bugstack.domain.strategy.service.armory.IStrategyDispatch;
+import cn.bugstack.domain.strategy.service.rule.chain.ILogicChain;
 import cn.bugstack.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
-import cn.bugstack.domain.strategy.service.rule.filter.ILogicFilter;
-import cn.bugstack.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
+import cn.bugstack.domain.strategy.service.rule.tree.factory.DefaultTreeFactory;
+import cn.bugstack.domain.strategy.service.rule.tree.factory.engine.IDecisionTreeEngine;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class DefaultRaffleStrategy extends AbstractRaffleStrategy
 {
 
-  @Resource
-  private DefaultLogicFactory logicFactory;
 
-  public DefaultRaffleStrategy(IStrategyRepository repository, IStrategyDispatch strategyDispatch, DefaultChainFactory defaultChainFactory) {
-    super(repository, strategyDispatch, defaultChainFactory);
+  public DefaultRaffleStrategy(IStrategyRepository repository, IStrategyDispatch strategyDispatch, DefaultChainFactory defaultChainFactory, DefaultTreeFactory defaultTreeFactory) {
+    super(repository, strategyDispatch, defaultChainFactory, defaultTreeFactory);
   }
 
   @Override
-  protected RuleActionEntity<RuleActionEntity.RaffleCenterEntity> doCheckRaffleCenterLogic(RaffleFactorEntity raffleFactorEntity, String... logics) {
-    if (logics == null || 0 == logics.length) return RuleActionEntity.<RuleActionEntity.RaffleCenterEntity>builder()
-        .code(RuleLogicCheckTypeVO.ALLOW.getCode())
-        .info(RuleLogicCheckTypeVO.ALLOW.getInfo())
-        .build();
+  public DefaultChainFactory.StrategyAwardVO raffleLogicChain(String userId, Long strategyId) {
+    ILogicChain logicChain = defaultChainFactory.openLogicChain(strategyId);
+    return logicChain.logic(userId, strategyId);
+  }
 
-    Map<String, ILogicFilter<RuleActionEntity.RaffleCenterEntity>> logicFilterGroup = logicFactory.openLogicFilter();
+  @Override
+  public DefaultTreeFactory.StrategyAwardVO raffleLogicTree(String userId, Long strategyId, Integer awardId) {
 
-    RuleActionEntity<RuleActionEntity.RaffleCenterEntity> ruleActionEntity = null;
-    for (String ruleModel : logics) {
-      ILogicFilter<RuleActionEntity.RaffleCenterEntity> logicFilter = logicFilterGroup.get(ruleModel); // 这种形式我们就能对所有的applicable的 rule model进行 filter直到找到需要干预的action, 或者没有找到 -> allow 当前action
-      RuleMatterEntity ruleMatterEntity = new RuleMatterEntity();
-      ruleMatterEntity.setUserId(raffleFactorEntity.getUserId());
-      ruleMatterEntity.setAwardId(raffleFactorEntity.getAwardId());
-      ruleMatterEntity.setStrategyId(raffleFactorEntity.getStrategyId());
-      ruleMatterEntity.setRuleModel(ruleModel);
-      ruleActionEntity = logicFilter.filter(ruleMatterEntity);
-      // 非放行结果则顺序过滤
-      log.info("抽奖前规则过滤 userId: {} ruleModel: {} code: {} info: {}", raffleFactorEntity.getUserId(), ruleModel, ruleActionEntity.getCode(), ruleActionEntity.getInfo());
-      if (!RuleLogicCheckTypeVO.ALLOW.getCode().equals(ruleActionEntity.getCode())) return ruleActionEntity;
+    // if no rule model for the award, just return the award since we don't need to check anything
+//    23	100006	102	随机积分	NULL	97	97	0.9700	tree_lock(这里是这个奖品对应的rule models)	1	2023-12-09 09:38:31	2024-02-03 11:17:10
+    // 我们的逻辑就是根据这个抽到的奖品 会有哪些rule model来进行树的构建 进一步进行检查库存等关于这个奖品的check
+    StrategyAwardRuleModelVO strategyAwardRuleModelVO = repository.queryStrategyAwardRuleModelVO(strategyId, awardId);
+    if (null == strategyAwardRuleModelVO) {
+      return DefaultTreeFactory.StrategyAwardVO.builder().awardId(awardId).build();
     }
 
-    return ruleActionEntity;
+    RuleTreeVO ruleTreeVO = repository.queryRuleTreeVOByTreeId(strategyAwardRuleModelVO.getRuleModels());
+    if (null == ruleTreeVO) {
+      throw new RuntimeException("存在抽奖策略配置的规则模型 Key，未在库表 rule_tree、rule_tree_node、rule_tree_line 配置对应的规则树信息 " + strategyAwardRuleModelVO.getRuleModels());
+    }
+
+    // 工厂进行装配tree工厂的 engine装配
+    IDecisionTreeEngine decisionTreeEngine = defaultTreeFactory.openLogicTree(ruleTreeVO);
+    // 开始check
+    return decisionTreeEngine.process(userId, strategyId, awardId);
   }
 }

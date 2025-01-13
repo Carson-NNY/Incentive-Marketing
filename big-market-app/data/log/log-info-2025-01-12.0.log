@@ -1,0 +1,15 @@
+25-01-12.11:54:48.765 [main            ] INFO  LogicTreeTest          - Starting LogicTreeTest using Java 1.8.0_311 on liuguanzedeMBP with PID 7965 (started by carson in /Users/carson/Desktop/Microservice/big-market/big-market-app)
+25-01-12.11:54:48.766 [main            ] INFO  LogicTreeTest          - The following 1 profile is active: "dev"
+25-01-12.11:54:49.938 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+25-01-12.11:54:49.943 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25-01-12.11:54:49.994 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 27 ms. Found 0 Redis repository interfaces.
+25-01-12.11:54:51.996 [main            ] INFO  Version                - Redisson 3.23.4
+25-01-12.11:54:52.088 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-12.11:54:52.463 [redisson-netty-2-4] INFO  MasterPubSubConnectionPool - 1 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-12.11:54:52.502 [redisson-netty-2-13] INFO  MasterConnectionPool   - 5 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-12.11:54:54.910 [main            ] INFO  EndpointLinksResolver  - Exposing 1 endpoint(s) beneath base path '/actuator'
+25-01-12.11:54:54.982 [main            ] INFO  LogicTreeTest          - Started LogicTreeTest in 6.781 seconds (JVM running for 8.279)
+25-01-12.11:54:55.255 [main            ] INFO  DecisionTreeEngine     - 决策树引擎【决策树规则；增加dall-e-3画图模型】treeId:100000001 node:rule_lock code:0000
+25-01-12.11:54:55.257 [main            ] INFO  DecisionTreeEngine     - 决策树引擎【决策树规则；增加dall-e-3画图模型】treeId:100000001 node:rule_stock code:0001
+25-01-12.11:54:55.258 [main            ] INFO  DecisionTreeEngine     - 决策树引擎【决策树规则；增加dall-e-3画图模型】treeId:100000001 node:rule_luck_award code:0001
+25-01-12.11:54:55.531 [main            ] INFO  LogicTreeTest          - 测试结果：{"awardId":101,"awardRuleValue":"1,100"}
