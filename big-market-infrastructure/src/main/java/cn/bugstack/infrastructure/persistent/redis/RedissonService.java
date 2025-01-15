@@ -156,5 +156,23 @@ public class RedissonService implements IRedisService {
     return redissonClient.getBloomFilter(key);
   }
 
+  @Override
+  public Long getAtomicLong(String key) {
+    return redissonClient.getAtomicLong(key).get();
+  }
+
+  @Override
+  public void setAtomicLong(String key, Integer value) {
+    redissonClient.getAtomicLong(key).set(value);
+  }
+
+  @Override
+  public Boolean setNx(String key) {
+    //The trySet(value) method attempts to set the value of the bucket (associated with the given key) to "lock".
+    //If the bucket does not already have a value, this operation sets it to "lock" and returns true.
+    //If the bucket already has a value, the operation does not overwrite the existing value and returns false
+    return redissonClient.getBucket(key).trySet("lock");
+  }
+
 
 }

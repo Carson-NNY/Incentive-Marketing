@@ -33,6 +33,15 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
   public boolean assembleLotteryStrategy(Long strategyId) {
     // 1. 查询策略配置
     List<StrategyAwardEntity> strategyAwardEntities = repository.queryStrategyAwardList(strategyId);
+
+    // 2.0 cache奖品加库存 [使用decr扣减库存操作]
+    for (StrategyAwardEntity strategyAward : strategyAwardEntities) {
+      Integer awardId = strategyAward.getAwardId();
+      Integer awardCount = strategyAward.getAwardCount();
+      cacheStrategyAwardCount(strategyId, awardId, awardCount);
+    }
+
+    // 2.1 默认装备配置(全量抽奖概率)
     assembleLotteryStrategy(String.valueOf(strategyId), strategyAwardEntities);
 
     // 2. 权重策略配置 - 适用于 rule_weight 权重规则配置
@@ -55,6 +64,11 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
     }
 
     return true;
+  }
+
+  private void cacheStrategyAwardCount(Long strategyId, Integer awardId, Integer awardCount) {
+    String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY + strategyId + Constants.UNDERLINE + awardId;
+    repository.cacheStrategyAwardCount(cacheKey, awardCount);
   }
 
   // 用来进行概率抽奖的算法实现, 使用空间换时间的方式
@@ -129,6 +143,12 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
     String key = String.valueOf(strategyId).concat(Constants.UNDERLINE).concat(ruleWeightValue);
     int rateRange = repository.getRateRange(key);
     return repository.getStrategyAwardAssemble(key, new SecureRandom().nextInt(rateRange));
+  }
+
+  @Override
+  public Boolean subtractionAwardStock(Long strategyId, Integer awardId) {
+    String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY + strategyId + Constants.UNDERLINE + awardId;
+    return repository.subtractionAwardStock(cacheKey);
   }
 
 

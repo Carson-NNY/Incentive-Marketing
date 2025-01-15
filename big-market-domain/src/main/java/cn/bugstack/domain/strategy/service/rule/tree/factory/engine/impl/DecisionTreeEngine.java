@@ -41,7 +41,10 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
     while (null != ruleTreeNode) {
       // 得到当前Node的对应处理逻辑(对于当前的用户信息进行check来决定下一个Node)
       ILogicTreeNode logicTreeNode = logicTreeNodeGroup.get(ruleTreeNode.getRuleKey());
-      DefaultTreeFactory.TreeActionEntity logicEntity = logicTreeNode.logic(userId, strategyId, awardId);
+      String ruleValue = ruleTreeNode.getRuleValue();
+
+// 1	tree_lock	rule_lock	限定用户已完成N次抽奖后解锁	1(这个是针对于rule_lock Tree Node的rule value)	2024-01-27 10:03:09	2024-02-03 10:40:18
+      DefaultTreeFactory.TreeActionEntity logicEntity = logicTreeNode.logic(userId, strategyId, awardId, ruleValue);
 
       RuleLogicCheckTypeVO ruleLogicCheckTypeVO = logicEntity.getRuleLogicCheckType();
       strategyAwardData = logicEntity.getStrategyAwardVO();
@@ -73,6 +76,10 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
 
   public boolean decisionLogic(String matterValue, RuleTreeNodeLineVO nodeLine) {
     switch (nodeLine.getRuleLimitType()) {
+      // decision 分叉路口的data
+      //1	tree_lock	rule_lock	rule_stock	EQUAL	ALLOW	0000-00-00 00:00:00	2024-02-03 10:40:25
+      //2	tree_lock	rule_lock	rule_luck_award	EQUAL	TAKE_OVER	0000-00-00 00:00:00	2024-02-03 10:40:26
+      //3	tree_lock	rule_stock	rule_luck_award	EQUAL	ALLOW	0000-00-00 00:00:00	2025-01-15 01:50:25
       case EQUAL:
         return matterValue.equals(nodeLine.getRuleLimitValue().getCode());
       // 以下规则暂时不需要实现
