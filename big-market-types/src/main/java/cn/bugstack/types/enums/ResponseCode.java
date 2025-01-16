@@ -13,6 +13,7 @@ public enum ResponseCode {
     UN_ERROR("0001", "unknown failure"),
     ILLEGAL_PARAMETER("0002", "invalid params"),
     STRATEGY_RULE_WEIGHT_IS_NULL("ERR_BIZ_001", "Business exception: The rule_weight weight rule in the strategy rule has been applied but not configured."),
+    UN_ASSEMBLED_STRATEGY_ARMORY("ERR_BIZ_002", "抽奖策略配置未装配，请通过IStrategyArmory完成装配"),
     ;
 
 

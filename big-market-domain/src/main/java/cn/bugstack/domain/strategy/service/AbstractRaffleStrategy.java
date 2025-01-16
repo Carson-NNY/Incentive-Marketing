@@ -2,6 +2,7 @@ package cn.bugstack.domain.strategy.service;
 
 import cn.bugstack.domain.strategy.model.entity.RaffleAwardEntity;
 import cn.bugstack.domain.strategy.model.entity.RaffleFactorEntity;
+import cn.bugstack.domain.strategy.model.entity.StrategyAwardEntity;
 import cn.bugstack.domain.strategy.repository.IStrategyRepository;
 import cn.bugstack.domain.strategy.service.armory.IStrategyDispatch;
 import cn.bugstack.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
@@ -12,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
-public abstract class AbstractRaffleStrategy implements IRaffleStrategy, IRaffleStock {
+public abstract class AbstractRaffleStrategy implements IRaffleStrategy {
 
   // 策略仓储服务 -> domain层像一个大厨，仓储层提供米面粮油
   protected IStrategyRepository repository;
@@ -46,9 +47,8 @@ public abstract class AbstractRaffleStrategy implements IRaffleStrategy, IRaffle
     log.info("抽奖策略计算-责任链 {} {} {} {}", userId, strategyId, chainStrategyAwardVO.getAwardId(), chainStrategyAwardVO.getLogicModel());
     // 如果不是default的抽奖逻辑,证明我们已经找到了最终的奖品,直接返回.
     if (!DefaultChainFactory.LogicModel.RULE_DEFAULT.getCode().equals(chainStrategyAwardVO.getLogicModel())) {
-      return RaffleAwardEntity.builder()
-          .awardId(chainStrategyAwardVO.getAwardId())
-          .build();
+      // TODO awardConfig 暂时为空。黑名单指定积分奖品，后续需要在库表中配置上对应的1积分值，并获取到。
+      return buildRaffleAwardEntity(strategyId, chainStrategyAwardVO.getAwardId(), null);
     }
 
     // 如果是default的奖品, 我们还需要进一步处理库存等检查
@@ -56,11 +56,17 @@ public abstract class AbstractRaffleStrategy implements IRaffleStrategy, IRaffle
     DefaultTreeFactory.StrategyAwardVO treeStrategyAwardVO = raffleLogicTree(userId, strategyId, chainStrategyAwardVO.getAwardId());
     log.info("抽奖策略计算-规则树 {} {} {} {}", userId, strategyId, treeStrategyAwardVO.getAwardId(), treeStrategyAwardVO.getAwardRuleValue());
 
-    return RaffleAwardEntity.builder()
-        .awardId(treeStrategyAwardVO.getAwardId())
-        .awardConfig(treeStrategyAwardVO.getAwardRuleValue())
-        .build();
+    return buildRaffleAwardEntity(strategyId, treeStrategyAwardVO.getAwardId(), treeStrategyAwardVO.getAwardRuleValue());
 
+  }
+
+  private RaffleAwardEntity buildRaffleAwardEntity(Long strategyId, Integer awardId, String awardConfig) {
+    StrategyAwardEntity strategyAward = repository.queryStrategyAwardEntity(strategyId, awardId);
+    return RaffleAwardEntity.builder()
+        .awardId(awardId)
+        .awardConfig(awardConfig)
+        .sort(strategyAward.getSort())
+        .build();
   }
 
   // 这种就是 template pattern

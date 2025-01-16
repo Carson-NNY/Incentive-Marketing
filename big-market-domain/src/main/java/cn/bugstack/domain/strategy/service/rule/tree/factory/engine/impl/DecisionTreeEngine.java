@@ -61,16 +61,13 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
   }
 
   private String nextNode(String matterValue, List<RuleTreeNodeLineVO> ruleTreeNodeLineVOList) {
-    if (null == ruleTreeNodeLineVOList || ruleTreeNodeLineVOList.isEmpty()) {
-      return null;
-    }
-
+    if (null == ruleTreeNodeLineVOList || ruleTreeNodeLineVOList.isEmpty()) return null;
     for (RuleTreeNodeLineVO nodeLine : ruleTreeNodeLineVOList) {
       if (decisionLogic(matterValue, nodeLine)) { // 当返回true时，说明我们找到了下一个节点
         return nodeLine.getRuleNodeTo();
       }
     }
-    throw new RuntimeException("决策树引擎处理异常，nextNode 计算失败");
+    return null;
 
   }
 

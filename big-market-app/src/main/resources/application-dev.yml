@@ -1,5 +1,19 @@
 server:
   port: 8091
+  tomcat:
+    threads:
+      max: 200        # Sets the maximum number of threads the Tomcat server can use to handle client requests. If more than 200 concurrent requests come in, additional requests will wait in the queue (accept-count)
+      min-spare: 50   #   Specifies the minimum number of threads that should always remain idle and ready to handle new requests. This helps ensure fast response times for new requests.
+    accept-count: 10  # 等待队列长度
+
+
+# 应用配置
+app:
+  config:
+    # 版本，方便通过接口版本升级
+    api-version: v1
+    # 跨域，开发阶段可以设置为 * 不限制
+    cross-origin: '*'
 
 # 线程池配置
 thread:
