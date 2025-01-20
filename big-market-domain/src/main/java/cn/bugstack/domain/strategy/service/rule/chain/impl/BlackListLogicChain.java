@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 @Component("rule_blacklist") // 利用@Component注解，将当前类注册到Spring容器中，bean名称为rule_blacklist
 //This annotation registers the class as a Spring Bean in the application context, and the provided string (rule_blacklist) specifies the bean name.
 //When Spring initializes the application context, it scans the package for all classes annotated with @Component and registers them as beans.
-public class BlackListLogicChain  extends AbstractLogicChain {
+public class BlackListLogicChain extends AbstractLogicChain {
 
     @Resource
     private IStrategyRepository repository;

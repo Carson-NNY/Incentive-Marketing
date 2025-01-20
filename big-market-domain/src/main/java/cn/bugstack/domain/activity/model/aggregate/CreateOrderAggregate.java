@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author Fuzhengwei bugstack.cn @小傅哥
- * @description 下单聚合对象
+ * @description 聚合对象：aggregate，与事务相关，将同一事务所需属性集合到一起，聚合内保证事务的统一
  * @create 2024-03-16 10:32
  */
 @Data
@@ -19,9 +19,30 @@ import lombok.NoArgsConstructor;
 public class CreateOrderAggregate {
 
     /**
-     * 活动账户实体
+     * 用户ID
      */
-    private ActivityAccountEntity activityAccountEntity;
+    private String userId;
+
+    /**
+     * 活动ID
+     */
+    private Long activityId;
+
+    /**
+     * 增加；总次数
+     */
+    private Integer totalCount;
+
+    /**
+     * 增加；日次数
+     */
+    private Integer dayCount;
+
+    /**
+     * 增加；月次数
+     */
+    private Integer monthCount;
+
     /**
      * 活动订单实体
      */

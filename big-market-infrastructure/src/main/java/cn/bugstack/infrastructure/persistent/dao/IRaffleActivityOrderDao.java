@@ -16,9 +16,6 @@ import java.util.List;
 @DBRouterStrategy(splitTable = true)
 public interface IRaffleActivityOrderDao {
 
-  // 这个DBRouter就是用来分库分表的，key是分库分表的依据，这里是userId. whenever you want to insert a new record,
-  // 我们都会根据userId来决定这个记录应该插入到哪个库的哪个表里面
-  @DBRouter(key = "userId")
   void insert(RaffleActivityOrder raffleActivityOrder);
 
   @DBRouter
