@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Redis 服务 - Redisson
@@ -172,6 +173,11 @@ public class RedissonService implements IRedisService {
     //If the bucket does not already have a value, this operation sets it to "lock" and returns true.
     //If the bucket already has a value, the operation does not overwrite the existing value and returns false
     return redissonClient.getBucket(key).trySet("lock");
+  }
+
+  @Override
+  public Boolean setNx(String key, long expired, TimeUnit timeUnit) {
+    return redissonClient.getBucket(key).trySet("lock", expired, timeUnit);
   }
 
 

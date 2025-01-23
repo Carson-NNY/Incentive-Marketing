@@ -11,7 +11,6 @@ import cn.bugstack.domain.activity.service.rule.IActionChain;
 import cn.bugstack.domain.activity.service.rule.factory.DefaultActivityChainFactory;
 import cn.bugstack.types.enums.ResponseCode;
 import cn.bugstack.types.exception.AppException;
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -39,7 +38,6 @@ public abstract class AbstractRaffleActivity extends RaffleActivitySupport imple
         }
 
         // 2. 查询基础信息
-
         // 2.1 通过sku查询活动信息
         ActivitySkuEntity activitySkuEntity = queryActivitySku(sku);
         // 2.2 查询活动信息
@@ -48,13 +46,13 @@ public abstract class AbstractRaffleActivity extends RaffleActivitySupport imple
         ActivityCountEntity activityCountEntity = queryRaffleActivityCountByActivityCountId(activitySkuEntity.getActivityCountId());
 
         // 3. 活动动作规则校验
-        IActionChain iActionChain = defaultActivityChainFactory.openActionChain();
-        boolean success = iActionChain.action(activitySkuEntity, activityEntity, activityCountEntity);
+        IActionChain actionChain = defaultActivityChainFactory.openActionChain();
+        actionChain.action(activitySkuEntity, activityEntity, activityCountEntity);
 
         // 4. 构建订单聚合对象
         CreateOrderAggregate createOrderAggregate = buildOrderAggregate(skuRechargeEntity, activitySkuEntity, activityEntity, activityCountEntity);
 
-        // 5. 保存订单
+        // 5. 保存订单 (这里面就是通过聚合对象对一个事务进行处理)
         doSaveOrder(createOrderAggregate);
         // 6. 返回单号
         return createOrderAggregate.getActivityOrderEntity().getOrderId();

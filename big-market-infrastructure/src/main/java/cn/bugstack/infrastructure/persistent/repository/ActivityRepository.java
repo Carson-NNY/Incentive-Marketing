@@ -1,12 +1,15 @@
 package cn.bugstack.infrastructure.persistent.repository;
 
+import cn.bugstack.domain.activity.event.ActivitySkuStockZeroMessageEvent;
 import cn.bugstack.domain.activity.model.aggregate.CreateOrderAggregate;
 import cn.bugstack.domain.activity.model.entity.ActivityCountEntity;
 import cn.bugstack.domain.activity.model.entity.ActivityEntity;
 import cn.bugstack.domain.activity.model.entity.ActivityOrderEntity;
 import cn.bugstack.domain.activity.model.entity.ActivitySkuEntity;
+import cn.bugstack.domain.activity.model.valobj.ActivitySkuStockKeyVO;
 import cn.bugstack.domain.activity.model.valobj.ActivityStateVO;
 import cn.bugstack.domain.activity.repository.IActivityRepository;
+import cn.bugstack.infrastructure.event.EventPublisher;
 import cn.bugstack.infrastructure.persistent.dao.IRaffleActivityAccountDao;
 import cn.bugstack.infrastructure.persistent.dao.IRaffleActivityCountDao;
 import cn.bugstack.infrastructure.persistent.dao.IRaffleActivityDao;
@@ -23,11 +26,15 @@ import cn.bugstack.types.enums.ResponseCode;
 import cn.bugstack.types.common.Constants;
 import cn.bugstack.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RBlockingQueue;
+import org.redisson.api.RDelayedQueue;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Repository
@@ -52,6 +59,10 @@ public class ActivityRepository implements IActivityRepository {
   @Resource
   private IDBRouterStrategy dbRouter;
 
+  @Resource
+  private EventPublisher eventPublisher;
+  @Resource
+  private ActivitySkuStockZeroMessageEvent activitySkuStockZeroMessageEvent;
 
   @Override
   public ActivitySkuEntity queryActivitySku(Long sku) {
@@ -161,6 +172,72 @@ public class ActivityRepository implements IActivityRepository {
     } finally {
       dbRouter.clear(); // in the end of the transaction, clear the router
     }
+  }
+
+  @Override
+  public void cacheActivitySkuStockCount(String cacheKey, Integer stockCount) {
+    if (redisService.isExists(cacheKey)) return;
+    redisService.setAtomicLong(cacheKey, stockCount);
+  }
+
+  @Override
+  public boolean substractionActivitySkuStock(Long sku, String cacheKey, Date endDateTime) {
+    long surplus = redisService.decr(cacheKey);
+    if (surplus == 0) {
+      // 库存消耗没了后 发送MQ消息, 更新数据库库存
+      eventPublisher.publish(activitySkuStockZeroMessageEvent.topic(), activitySkuStockZeroMessageEvent.buildEventMessage(sku));
+      return false;
+    } else if (surplus < 0) {
+      redisService.setAtomicLong(cacheKey, 0);
+      return false;
+    }
+
+    String lockKey = cacheKey + Constants.UNDERLINE + surplus;
+    long expireMillis = endDateTime.getTime() - System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1);
+    Boolean lock = redisService.setNx(lockKey, expireMillis, TimeUnit.MICROSECONDS);
+    if (!lock) {
+      log.info("活动sku库存加锁失败 {}", lockKey);
+    }
+    return lock;
+  }
+
+  @Override
+  public void activitySkuStockConsumeSendQueue(ActivitySkuStockKeyVO activitySkuStockKeyVO) {
+    String cacheKey = Constants.RedisKey.ACTIVITY_SKU_COUNT_QUEUE_KEY;
+    RBlockingQueue<ActivitySkuStockKeyVO> blockingQueue = redisService.getBlockingQueue(cacheKey);
+    RDelayedQueue<ActivitySkuStockKeyVO> delayedQueue = redisService.getDelayedQueue(blockingQueue);
+    //The delayedQueue.offer(activitySkuStockKeyVO, 3, TimeUnit.SECONDS) method is part of your logic to manage task execution timing within a distributed system. Specifically:
+    // After the 3-second delay, the item is moved from the delayed queue into the blocking queue.
+    //    This is useful for scenarios where you want to:
+    //        Reduce immediate contention or load on downstream resources (e.g., database updates).
+    //        Avoid excessive updates in a short period of time, smoothing out the workload.
+    //
+    //The delayed queue ensures that tasks are queued for processing after a specific delay, which adds a layer of control over the timing of task availability.
+    delayedQueue.offer(activitySkuStockKeyVO,3, TimeUnit.SECONDS);
+  }
+
+  @Override
+  public ActivitySkuStockKeyVO takeQueueValue() {
+    String cacheKey = Constants.RedisKey.ACTIVITY_SKU_COUNT_QUEUE_KEY;
+    RBlockingQueue<ActivitySkuStockKeyVO> destinationQueue = redisService.getBlockingQueue(cacheKey);
+    return destinationQueue.poll();
+  }
+
+  @Override
+  public void clearQueueValue() {
+    String cacheKey = Constants.RedisKey.ACTIVITY_SKU_COUNT_QUEUE_KEY;
+    RBlockingQueue<ActivitySkuStockKeyVO> destinationQueue = redisService.getBlockingQueue(cacheKey);
+    destinationQueue.clear();
+  }
+
+  @Override
+  public void updateActivitySkuStock(Long sku) {
+    raffleActivitySkuDao.updateActivitySkuStock(sku);
+  }
+
+  @Override
+  public void clearActivitySkuStock(Long sku) {
+    raffleActivitySkuDao.clearActivitySkuStock(sku);
   }
 
 
