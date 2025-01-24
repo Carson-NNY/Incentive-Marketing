@@ -26,6 +26,7 @@ public abstract class AbstractRaffleActivity extends RaffleActivitySupport imple
         super(activityRepository, defaultActivityChainFactory);
     }
 
+    // note: 这个主要是用户来领取抽奖机会的地方(通过充值/每日签到 来增加总账户的额度)
     @Override
     public String createSkuRechargeOrder(SkuRechargeEntity skuRechargeEntity) {
 
@@ -52,7 +53,7 @@ public abstract class AbstractRaffleActivity extends RaffleActivitySupport imple
         // 4. 构建订单聚合对象
         CreateOrderAggregate createOrderAggregate = buildOrderAggregate(skuRechargeEntity, activitySkuEntity, activityEntity, activityCountEntity);
 
-        // 5. 保存订单 (这里面就是通过聚合对象对一个事务进行处理)
+        // 5. 保存订单流水 (这里面就是通过聚合对象对一个事务进行处理)
         doSaveOrder(createOrderAggregate);
         // 6. 返回单号
         return createOrderAggregate.getActivityOrderEntity().getOrderId();

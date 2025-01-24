@@ -193,6 +193,7 @@ public class ActivityRepository implements IActivityRepository {
     }
 
     String lockKey = cacheKey + Constants.UNDERLINE + surplus;
+    //expireMillis: The expiration time for the lock, ensuring it will automatically release after the specified duration
     long expireMillis = endDateTime.getTime() - System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1);
     Boolean lock = redisService.setNx(lockKey, expireMillis, TimeUnit.MICROSECONDS);
     if (!lock) {
