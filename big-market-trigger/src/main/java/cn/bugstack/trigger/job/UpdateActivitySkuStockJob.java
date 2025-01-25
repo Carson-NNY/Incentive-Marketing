@@ -1,7 +1,7 @@
 package cn.bugstack.trigger.job;
 
 import cn.bugstack.domain.activity.model.valobj.ActivitySkuStockKeyVO;
-import cn.bugstack.domain.activity.service.ISkuStock;
+import cn.bugstack.domain.activity.service.IRaffleActivitySkuStockService;
 import cn.bugstack.domain.activity.service.armory.IActivityArmory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 public class UpdateActivitySkuStockJob {
 
   @Resource
-  private ISkuStock skuStock;
+  private IRaffleActivitySkuStockService skuStock;
 
   //The @Scheduled(cron = "0/5 * * * * ?") schedules the exec method to run every 5 seconds.
   //This method acts as a polling mechanism to check for new tasks in the queue (takeQueueValue) and processes them.

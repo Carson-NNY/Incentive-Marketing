@@ -4,13 +4,13 @@ import cn.bugstack.domain.activity.model.entity.SkuRechargeEntity;
 
 //Key Components:
 //
-//    "IRaffleOrder":
+//    "IRaffleActivityAccountQuotaService":
 //    An interface that defines operations related to raffle orders. In DDD, this is likely a domain service since the logic does not belong to a specific entity. It operates on multiple entities or aggregates.
 //    "RaffleActivityService":
 //    This is an implementation of IRaffleOrder. It's annotated as a Spring component (like @Service), making it available for dependency injection. This handles the business logic tied to raffle activity orders.
-//    "AbstractRaffleActivity":
+//    "AbstractRaffleActivityPartake":
 //    A possible base class or shared implementation for raffle-related activities. It might define shared behaviors or enforce certain rules across multiple implementations.
-public interface IRaffleOrder {
+public interface IRaffleActivityAccountQuotaService {
 
   /**
    * 创建 sku 账户充值订单，给用户增加抽奖次数
@@ -22,6 +22,6 @@ public interface IRaffleOrder {
    * @return 活动ID
    */
 
-  String createSkuRechargeOrder(SkuRechargeEntity skuRechargeEntity);
+  String createOrder(SkuRechargeEntity skuRechargeEntity);
 
 }

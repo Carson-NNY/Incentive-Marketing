@@ -4,7 +4,7 @@ import cn.bugstack.domain.activity.model.valobj.ActivitySkuStockKeyVO;
 import org.checkerframework.checker.units.qual.A;
 
 // rabbitmq 消息发送的处理
-public interface ISkuStock {
+public interface IRaffleActivitySkuStockService {
 
   /**
    * 获取活动sku库存消耗队列

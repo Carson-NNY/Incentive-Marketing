@@ -1,0 +1,215 @@
+25-01-23.10:42:35.681 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-23.10:42:36.972 [main            ] WARN  GenericWebApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'updateActivitySkuStockJob': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'raffleActivityService' defined in file [/Users/carson/Desktop/Microservice/big-market/big-market-domain/target/classes/cn/bugstack/domain/activity/service/RaffleActivityService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'activityRepository': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'cn.bugstack.domain.activity.event.ActivitySkuStockZeroMessageEvent' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@javax.annotation.Resource(shareable=true, lookup=, name=, description=, authenticationType=CONTAINER, type=class java.lang.Object, mappedName=)}
+25-01-23.10:42:37.068 [main            ] ERROR LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in cn.bugstack.domain.activity.service.quota.RaffleActivityService required a bean of type 'cn.bugstack.domain.activity.event.ActivitySkuStockZeroMessageEvent' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'cn.bugstack.domain.activity.event.ActivitySkuStockZeroMessageEvent' in your configuration.
+
+25-01-23.10:42:37.074 [main            ] ERROR TestContextManager     - Caught exception while allowing TestExecutionListener [org.springframework.test.context.web.ServletTestExecutionListener@3eb25e1a] to prepare test instance [cn.bugstack.test.domain.activity.RaffleOrderTest@22ca1242]
+java.lang.IllegalStateException: Failed to load ApplicationContext
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:98)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:124)
+	at org.springframework.test.context.web.ServletTestExecutionListener.setUpRequestContextIfNecessary(ServletTestExecutionListener.java:190)
+	at org.springframework.test.context.web.ServletTestExecutionListener.prepareTestInstance(ServletTestExecutionListener.java:132)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:248)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:69)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater$1.execute(IdeaTestRunner.java:38)
+	at com.intellij.rt.execution.junit.TestsRepeater.repeat(TestsRepeater.java:11)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:232)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:55)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'updateActivitySkuStockJob': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'raffleActivityService' defined in file [/Users/carson/Desktop/Microservice/big-market/big-market-domain/target/classes/cn/bugstack/domain/activity/service/RaffleActivityService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'activityRepository': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'cn.bugstack.domain.activity.event.ActivitySkuStockZeroMessageEvent' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@javax.annotation.Resource(shareable=true, lookup=, name=, description=, authenticationType=CONTAINER, type=class java.lang.Object, mappedName=)}
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessProperties(CommonAnnotationBeanPostProcessor.java:332)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:619)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:920)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:731)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:307)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:136)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:141)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:90)
+	... 27 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'raffleActivityService' defined in file [/Users/carson/Desktop/Microservice/big-market/big-market-domain/target/classes/cn/bugstack/domain/activity/service/RaffleActivityService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'activityRepository': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'cn.bugstack.domain.activity.event.ActivitySkuStockZeroMessageEvent' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@javax.annotation.Resource(shareable=true, lookup=, name=, description=, authenticationType=CONTAINER, type=class java.lang.Object, mappedName=)}
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:800)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:229)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1372)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1222)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1391)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.autowireResource(CommonAnnotationBeanPostProcessor.java:544)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.getResource(CommonAnnotationBeanPostProcessor.java:520)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor$ResourceElement.getResourceToInject(CommonAnnotationBeanPostProcessor.java:673)
+	at org.springframework.beans.factory.annotation.InjectionMetadata$InjectedElement.inject(InjectionMetadata.java:228)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessProperties(CommonAnnotationBeanPostProcessor.java:329)
+	... 43 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'activityRepository': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'cn.bugstack.domain.activity.event.ActivitySkuStockZeroMessageEvent' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@javax.annotation.Resource(shareable=true, lookup=, name=, description=, authenticationType=CONTAINER, type=class java.lang.Object, mappedName=)}
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessProperties(CommonAnnotationBeanPostProcessor.java:332)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:619)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1391)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:887)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 61 common frames omitted
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'cn.bugstack.domain.activity.event.ActivitySkuStockZeroMessageEvent' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@javax.annotation.Resource(shareable=true, lookup=, name=, description=, authenticationType=CONTAINER, type=class java.lang.Object, mappedName=)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1801)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1357)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.autowireResource(CommonAnnotationBeanPostProcessor.java:544)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.getResource(CommonAnnotationBeanPostProcessor.java:520)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor$ResourceElement.getResourceToInject(CommonAnnotationBeanPostProcessor.java:673)
+	at org.springframework.beans.factory.annotation.InjectionMetadata$InjectedElement.inject(InjectionMetadata.java:228)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessProperties(CommonAnnotationBeanPostProcessor.java:329)
+	... 73 common frames omitted
+25-01-23.10:45:52.513 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-23.10:49:39.883 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-23.10:49:44.537 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.558 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.569 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.581 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.594 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.606 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.616 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.625 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.638 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.649 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.661 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.675 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.687 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.705 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.721 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.736 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.750 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.764 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.778 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:49:44.791 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:40.579 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-23.10:51:45.432 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.454 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.472 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.491 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.508 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.532 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.560 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.579 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.594 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.611 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.627 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.645 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.662 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.685 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.703 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.723 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.745 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.761 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.778 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.10:51:45.796 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:18:52.397 [main            ] WARN  StartupInfoLogger      - InetAddress.getLocalHost().getHostName() took 5002 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+25-01-23.13:18:57.402 [main            ] WARN  ApplicationPid         - ManagementFactory.getRuntimeMXBean().getName() took 5002 milliseconds to respond. This may be due to slow host name resolution. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+25-01-23.13:19:02.514 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-23.13:19:15.561 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.590 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.610 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.630 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.649 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.674 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.698 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.716 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.738 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.762 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.787 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.819 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.845 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.872 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.893 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.909 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.931 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.950 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:15.971 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:19:16.004 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:31:06.699 [main            ] WARN  StartupInfoLogger      - InetAddress.getLocalHost().getHostName() took 5002 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+25-01-23.13:31:11.704 [main            ] WARN  ApplicationPid         - ManagementFactory.getRuntimeMXBean().getName() took 5002 milliseconds to respond. This may be due to slow host name resolution. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+25-01-23.13:31:16.379 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-23.13:32:59.113 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.287 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.311 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.335 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.360 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.377 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.397 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.520 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.542 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.561 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.580 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.594 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.608 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.624 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.636 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.657 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.671 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.686 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.706 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:33:06.723 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:37:58.653 [main            ] WARN  StartupInfoLogger      - InetAddress.getLocalHost().getHostName() took 5002 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+25-01-23.13:38:03.659 [main            ] WARN  ApplicationPid         - ManagementFactory.getRuntimeMXBean().getName() took 5003 milliseconds to respond. This may be due to slow host name resolution. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+25-01-23.13:38:09.908 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-23.13:41:50.237 [Retail_HikariCP housekeeper] WARN  HikariPool             - Retail_HikariCP - Thread starvation or clock leap detected (housekeeper delta=3m25s557ms).
+25-01-23.13:41:50.277 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:41:50.361 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:41:50.420 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:41:50.559 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:41:50.592 [main            ] WARN  RaffleOrderTest        - 活动库存不足
+25-01-23.13:44:45.057 [main            ] WARN  StartupInfoLogger      - InetAddress.getLocalHost().getHostName() took 5002 milliseconds to respond. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+25-01-23.13:44:50.061 [main            ] WARN  ApplicationPid         - ManagementFactory.getRuntimeMXBean().getName() took 5003 milliseconds to respond. This may be due to slow host name resolution. Please verify your network configuration (macOS machines may need to add entries to /etc/hosts).
+25-01-23.13:44:54.758 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-23.13:45:07.569 [main            ] WARN  RaffleOrderTest        - 活动库存不足
