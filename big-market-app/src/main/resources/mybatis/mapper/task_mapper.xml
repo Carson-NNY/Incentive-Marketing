@@ -34,10 +34,11 @@
         where user_id = #{userId} and message_id = #{messageId}
     </update>
 
+<!--    扫描 -->
     <select id="queryNoSendMessageTaskList" resultMap="dataMap">
         select user_id, topic, message_id, message
         from task
-        where state = 'fail' or (state = 'create' and now() - update_time > 6)
+        where state = 'fail' or (state = 'create' and now() - update_time > 6000)
         limit 10
     </select>
 

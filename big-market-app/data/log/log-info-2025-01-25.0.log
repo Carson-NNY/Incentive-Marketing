@@ -1,0 +1,117 @@
+25-01-25.12:58:05.006 [main            ] INFO  RaffleActivityPartakeServiceTest - Starting RaffleActivityPartakeServiceTest using Java 1.8.0_311 on liuguanzedeMBP with PID 5186 (started by carson in /Users/carson/Desktop/Microservice/big-market/big-market-app)
+25-01-25.12:58:05.007 [main            ] INFO  RaffleActivityPartakeServiceTest - The following 1 profile is active: "dev"
+25-01-25.12:58:06.343 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+25-01-25.12:58:06.349 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25-01-25.12:58:06.405 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 31 ms. Found 0 Redis repository interfaces.
+25-01-25.12:58:08.942 [main            ] INFO  Version                - Redisson 3.23.4
+25-01-25.12:58:09.080 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-25.12:58:09.520 [redisson-netty-2-4] INFO  MasterPubSubConnectionPool - 1 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-25.12:58:09.548 [redisson-netty-2-13] INFO  MasterConnectionPool   - 5 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-25.12:58:13.705 [main            ] INFO  EndpointLinksResolver  - Exposing 1 endpoint(s) beneath base path '/actuator'
+25-01-25.12:58:13.852 [main            ] INFO  CachingConnectionFactory - Attempting to connect to: [127.0.0.1:5672]
+25-01-25.12:58:13.987 [main            ] INFO  CachingConnectionFactory - Created new connection: rabbitConnectionFactory#f9cd1e6:0/SimpleConnection@3bdc8975 [delegate=amqp://admin@127.0.0.1:5672/, localPort= 50148]
+25-01-25.12:58:14.090 [main            ] INFO  RaffleActivityPartakeServiceTest - Started RaffleActivityPartakeServiceTest in 9.561 seconds (JVM running for 11.21)
+25-01-25.12:58:14.756 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+25-01-25.12:58:15.002 [scheduling-1    ] INFO  UpdateAwardStockJob    - 定时任务，更新奖品消耗库存【延迟队列获取，降低对数据库的更新频次，不要产生竞争】
+25-01-25.12:58:15.021 [scheduling-1    ] INFO  UpdateActivitySkuStockJob - 定时任务，更新活动sku库存【延迟队列获取，降低对数据库的更新频次，不要产生竞争】
+25-01-25.12:58:15.024 [scheduling-1    ] INFO  UpdateActivitySkuStockJob - 定时任务，更新活动sku库存 sku:9011 activityId:100301
+25-01-25.12:58:15.024 [scheduling-1    ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+25-01-25.12:58:15.231 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+25-01-25.12:58:15.233 [scheduling-1    ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+25-01-25.12:58:15.724 [main            ] INFO  RaffleActivityPartakeServiceTest - 请求参数：{"activityId":100301,"userId":"xiaofuge"}
+25-01-25.12:58:15.734 [main            ] INFO  RaffleActivityPartakeServiceTest - 测试结果：{"activityId":100301,"activityName":"测试活动","orderId":"682953634211","orderState":"create","orderTime":1737827894583,"strategyId":100006,"userId":"xiaofuge"}
+25-01-25.12:58:15.764 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Waiting for workers to finish.
+25-01-25.12:58:16.070 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
+25-01-25.12:58:16.075 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
+25-01-25.12:58:49.918 [main            ] INFO  RaffleActivityPartakeServiceTest - Starting RaffleActivityPartakeServiceTest using Java 1.8.0_311 on liuguanzedeMBP with PID 5218 (started by carson in /Users/carson/Desktop/Microservice/big-market/big-market-app)
+25-01-25.12:58:49.919 [main            ] INFO  RaffleActivityPartakeServiceTest - The following 1 profile is active: "dev"
+25-01-25.12:58:51.030 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+25-01-25.12:58:51.034 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25-01-25.12:58:51.074 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 25 ms. Found 0 Redis repository interfaces.
+25-01-25.12:58:52.931 [main            ] INFO  Version                - Redisson 3.23.4
+25-01-25.12:58:53.006 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-25.12:58:53.276 [redisson-netty-2-5] INFO  MasterPubSubConnectionPool - 1 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-25.12:58:53.305 [redisson-netty-2-13] INFO  MasterConnectionPool   - 5 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-25.12:58:56.350 [main            ] INFO  EndpointLinksResolver  - Exposing 1 endpoint(s) beneath base path '/actuator'
+25-01-25.12:58:56.499 [main            ] INFO  CachingConnectionFactory - Attempting to connect to: [127.0.0.1:5672]
+25-01-25.12:58:56.611 [main            ] INFO  CachingConnectionFactory - Created new connection: rabbitConnectionFactory#1570cad0:0/SimpleConnection@7e8c58fd [delegate=amqp://admin@127.0.0.1:5672/, localPort= 50190]
+25-01-25.12:58:56.729 [main            ] INFO  RaffleActivityPartakeServiceTest - Started RaffleActivityPartakeServiceTest in 7.266 seconds (JVM running for 8.354)
+25-01-25.12:58:57.289 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+25-01-25.12:58:57.741 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+25-01-25.12:58:57.786 [main            ] INFO  AbstractRaffleActivityPartake - 创建参与活动订单[已存在 未消费] userId:xiaofuge activityId:100301 userRaffleOrderEntity:UserRaffleOrderEntity(userId=xiaofuge, activityId=100301, activityName=测试活动, strategyId=100006, orderId=682953634211, orderTime=Sat Jan 25 12:58:15 EST 2025, orderState=create)
+25-01-25.12:58:58.044 [main            ] INFO  RaffleActivityPartakeServiceTest - 请求参数：{"activityId":100301,"userId":"xiaofuge"}
+25-01-25.12:58:58.053 [main            ] INFO  RaffleActivityPartakeServiceTest - 测试结果：{"activityId":100301,"activityName":"测试活动","orderId":"682953634211","orderState":"create","orderTime":1737827895000,"strategyId":100006,"userId":"xiaofuge"}
+25-01-25.12:58:58.077 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Waiting for workers to finish.
+25-01-25.12:58:58.710 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
+25-01-25.12:58:58.714 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
+25-01-25.13:00:18.020 [main            ] INFO  RaffleActivityPartakeServiceTest - Starting RaffleActivityPartakeServiceTest using Java 1.8.0_311 on liuguanzedeMBP with PID 5297 (started by carson in /Users/carson/Desktop/Microservice/big-market/big-market-app)
+25-01-25.13:00:18.021 [main            ] INFO  RaffleActivityPartakeServiceTest - The following 1 profile is active: "dev"
+25-01-25.13:00:19.586 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+25-01-25.13:00:19.591 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25-01-25.13:00:19.658 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 45 ms. Found 0 Redis repository interfaces.
+25-01-25.13:00:22.256 [main            ] INFO  Version                - Redisson 3.23.4
+25-01-25.13:00:22.349 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-25.13:00:22.696 [redisson-netty-2-6] INFO  MasterPubSubConnectionPool - 1 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-25.13:00:22.723 [redisson-netty-2-13] INFO  MasterConnectionPool   - 5 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-25.13:00:26.319 [main            ] INFO  EndpointLinksResolver  - Exposing 1 endpoint(s) beneath base path '/actuator'
+25-01-25.13:00:26.465 [main            ] INFO  CachingConnectionFactory - Attempting to connect to: [127.0.0.1:5672]
+25-01-25.13:00:26.577 [main            ] INFO  CachingConnectionFactory - Created new connection: rabbitConnectionFactory#3ed7dd70:0/SimpleConnection@7dd7ec56 [delegate=amqp://admin@127.0.0.1:5672/, localPort= 50241]
+25-01-25.13:00:26.699 [main            ] INFO  RaffleActivityPartakeServiceTest - Started RaffleActivityPartakeServiceTest in 9.35 seconds (JVM running for 10.869)
+25-01-25.13:00:27.317 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+25-01-25.13:00:27.737 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+25-01-25.13:00:28.151 [main            ] INFO  RaffleActivityPartakeServiceTest - 请求参数：{"activityId":100301,"userId":"xiaofuge"}
+25-01-25.13:00:28.160 [main            ] INFO  RaffleActivityPartakeServiceTest - 测试结果：{"activityId":100301,"activityName":"测试活动","orderId":"516960229676","orderState":"create","orderTime":1737828027121,"strategyId":100006,"userId":"xiaofuge"}
+25-01-25.13:00:28.182 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Waiting for workers to finish.
+25-01-25.13:00:28.671 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
+25-01-25.13:00:28.675 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
+25-01-25.13:02:07.109 [main            ] INFO  RaffleActivityPartakeServiceTest - Starting RaffleActivityPartakeServiceTest using Java 1.8.0_311 on liuguanzedeMBP with PID 5429 (started by carson in /Users/carson/Desktop/Microservice/big-market/big-market-app)
+25-01-25.13:02:07.110 [main            ] INFO  RaffleActivityPartakeServiceTest - The following 1 profile is active: "dev"
+25-01-25.13:02:08.270 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+25-01-25.13:02:08.274 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25-01-25.13:02:08.318 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 29 ms. Found 0 Redis repository interfaces.
+25-01-25.13:02:10.248 [main            ] INFO  Version                - Redisson 3.23.4
+25-01-25.13:02:10.328 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-25.13:02:10.602 [redisson-netty-2-4] INFO  MasterPubSubConnectionPool - 1 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-25.13:02:10.630 [redisson-netty-2-13] INFO  MasterConnectionPool   - 5 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-25.13:02:13.448 [main            ] INFO  EndpointLinksResolver  - Exposing 1 endpoint(s) beneath base path '/actuator'
+25-01-25.13:02:13.591 [main            ] INFO  CachingConnectionFactory - Attempting to connect to: [127.0.0.1:5672]
+25-01-25.13:02:13.701 [main            ] INFO  CachingConnectionFactory - Created new connection: rabbitConnectionFactory#3ed7dd70:0/SimpleConnection@7dd7ec56 [delegate=amqp://admin@127.0.0.1:5672/, localPort= 50329]
+25-01-25.13:02:13.780 [main            ] INFO  RaffleActivityPartakeServiceTest - Started RaffleActivityPartakeServiceTest in 7.119 seconds (JVM running for 8.365)
+25-01-25.13:02:14.245 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+25-01-25.13:02:14.700 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+25-01-25.13:02:15.000 [scheduling-1    ] INFO  UpdateActivitySkuStockJob - 定时任务，更新活动sku库存【延迟队列获取，降低对数据库的更新频次，不要产生竞争】
+25-01-25.13:02:15.008 [scheduling-1    ] INFO  UpdateActivitySkuStockJob - 定时任务，更新活动sku库存 sku:9011 activityId:100301
+25-01-25.13:02:15.008 [scheduling-1    ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+25-01-25.13:02:15.061 [scheduling-1    ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+25-01-25.13:02:15.070 [scheduling-1    ] INFO  UpdateAwardStockJob    - 定时任务，更新奖品消耗库存【延迟队列获取，降低对数据库的更新频次，不要产生竞争】
+25-01-25.13:02:15.132 [main            ] INFO  RaffleActivityPartakeServiceTest - 请求参数：{"activityId":100301,"userId":"xiaofuge"}
+25-01-25.13:02:15.141 [main            ] INFO  RaffleActivityPartakeServiceTest - 测试结果：{"activityId":100301,"activityName":"测试活动","orderId":"506596002049","orderState":"create","orderTime":1737828134101,"strategyId":100006,"userId":"xiaofuge"}
+25-01-25.13:02:15.165 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Waiting for workers to finish.
+25-01-25.13:02:15.770 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
+25-01-25.13:02:15.774 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
+25-01-25.13:02:53.304 [main            ] INFO  RaffleActivityPartakeServiceTest - Starting RaffleActivityPartakeServiceTest using Java 1.8.0_311 on liuguanzedeMBP with PID 5458 (started by carson in /Users/carson/Desktop/Microservice/big-market/big-market-app)
+25-01-25.13:02:53.305 [main            ] INFO  RaffleActivityPartakeServiceTest - The following 1 profile is active: "dev"
+25-01-25.13:02:54.278 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+25-01-25.13:02:54.281 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25-01-25.13:02:54.323 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 25 ms. Found 0 Redis repository interfaces.
+25-01-25.13:02:55.887 [main            ] INFO  Version                - Redisson 3.23.4
+25-01-25.13:02:55.951 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-25.13:02:56.247 [redisson-netty-2-4] INFO  MasterPubSubConnectionPool - 1 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-25.13:02:56.275 [redisson-netty-2-13] INFO  MasterConnectionPool   - 5 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-25.13:02:58.921 [main            ] INFO  EndpointLinksResolver  - Exposing 1 endpoint(s) beneath base path '/actuator'
+25-01-25.13:02:59.041 [main            ] INFO  CachingConnectionFactory - Attempting to connect to: [127.0.0.1:5672]
+25-01-25.13:02:59.131 [main            ] INFO  CachingConnectionFactory - Created new connection: rabbitConnectionFactory#1570cad0:0/SimpleConnection@7e8c58fd [delegate=amqp://admin@127.0.0.1:5672/, localPort= 50370]
+25-01-25.13:02:59.230 [main            ] INFO  RaffleActivityPartakeServiceTest - Started RaffleActivityPartakeServiceTest in 6.334 seconds (JVM running for 7.28)
+25-01-25.13:02:59.658 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+25-01-25.13:03:00.001 [scheduling-1    ] INFO  UpdateAwardStockJob    - 定时任务，更新奖品消耗库存【延迟队列获取，降低对数据库的更新频次，不要产生竞争】
+25-01-25.13:03:00.007 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+25-01-25.13:03:00.017 [scheduling-1    ] INFO  UpdateActivitySkuStockJob - 定时任务，更新活动sku库存【延迟队列获取，降低对数据库的更新频次，不要产生竞争】
+25-01-25.13:03:00.021 [scheduling-1    ] INFO  UpdateActivitySkuStockJob - 定时任务，更新活动sku库存 sku:9011 activityId:100301
+25-01-25.13:03:00.021 [scheduling-1    ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+25-01-25.13:03:00.057 [main            ] INFO  AbstractRaffleActivityPartake - 创建参与活动订单[已存在 未消费] userId:xiaofuge activityId:100301 userRaffleOrderEntity:UserRaffleOrderEntity(userId=xiaofuge, activityId=100301, activityName=测试活动, strategyId=100006, orderId=506596002049, orderTime=Sat Jan 25 13:02:14 EST 2025, orderState=create)
+25-01-25.13:03:00.074 [scheduling-1    ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+25-01-25.13:03:00.296 [main            ] INFO  RaffleActivityPartakeServiceTest - 请求参数：{"activityId":100301,"userId":"xiaofuge"}
+25-01-25.13:03:00.305 [main            ] INFO  RaffleActivityPartakeServiceTest - 测试结果：{"activityId":100301,"activityName":"测试活动","orderId":"506596002049","orderState":"create","orderTime":1737828134000,"strategyId":100006,"userId":"xiaofuge"}
+25-01-25.13:03:00.329 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Waiting for workers to finish.
+25-01-25.13:03:01.220 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
+25-01-25.13:03:01.225 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped

@@ -14,8 +14,14 @@ public class Task {
 
   /** 自增ID */
   private String id;
+
+  private String userId;
+
   /** 消息主题 */
   private String topic;
+
+  private String messageId; // BaseEvent 里面的EventMessage的 id
+
   /** 消息主体 */
   private String message;
   /** 任务状态；create-创建、completed-完成、fail-失败 */
