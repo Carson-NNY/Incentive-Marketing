@@ -670,3 +670,44 @@ Caused by: java.sql.SQLSyntaxErrorException: Table 'big_market_01.raffle_activit
 25-01-26.12:02:02.614 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
 25-01-26.12:02:02.620 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
 25-01-26.12:02:02.622 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
+25-01-26.12:29:59.489 [main            ] INFO  AwardServiceTest       - Starting AwardServiceTest using Java 1.8.0_311 on liuguanzedeMBP with PID 7262 (started by carson in /Users/carson/Desktop/Microservice/big-market/big-market-app)
+25-01-26.12:29:59.491 [main            ] INFO  AwardServiceTest       - The following 1 profile is active: "dev"
+25-01-26.12:30:01.258 [main            ] INFO  RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+25-01-26.12:30:01.263 [main            ] INFO  RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+25-01-26.12:30:01.328 [main            ] INFO  RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 40 ms. Found 0 Redis repository interfaces.
+25-01-26.12:30:03.900 [main            ] INFO  Version                - Redisson 3.23.4
+25-01-26.12:30:04.007 [main            ] WARN  DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+25-01-26.12:30:04.403 [redisson-netty-2-4] INFO  MasterPubSubConnectionPool - 1 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-26.12:30:04.436 [redisson-netty-2-13] INFO  MasterConnectionPool   - 5 connections initialized for 127.0.0.1/127.0.0.1:16379
+25-01-26.12:30:08.234 [main            ] INFO  EndpointLinksResolver  - Exposing 1 endpoint(s) beneath base path '/actuator'
+25-01-26.12:30:08.355 [main            ] INFO  CachingConnectionFactory - Attempting to connect to: [127.0.0.1:5672]
+25-01-26.12:30:08.453 [main            ] INFO  CachingConnectionFactory - Created new connection: rabbitConnectionFactory#18715bb:0/SimpleConnection@7a021f49 [delegate=amqp://admin@127.0.0.1:5672/, localPort= 51505]
+25-01-26.12:30:08.570 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-1] INFO  SendAwardCustomer      - 监听用户奖品发送消息 topic: send_award message: {"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"72390096860","timestamp":1737910922117}
+25-01-26.12:30:08.592 [main            ] INFO  AwardServiceTest       - Started AwardServiceTest in 9.753 seconds (JVM running for 11.175)
+25-01-26.12:30:09.323 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+25-01-26.12:30:09.847 [main            ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+25-01-26.12:30:09.944 [main            ] INFO  EventPublisher         - 发送MQ消息 topic:send_award message:{"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"10709891086","timestamp":1737912609007}
+25-01-26.12:30:09.946 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-1] INFO  SendAwardCustomer      - 监听用户奖品发送消息 topic: send_award message: {"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"10709891086","timestamp":1737912609007}
+25-01-26.12:30:10.063 [pool-3-thread-2 ] INFO  HikariDataSource       - Retail_HikariCP - Starting...
+25-01-26.12:30:10.143 [pool-3-thread-2 ] INFO  HikariDataSource       - Retail_HikariCP - Start completed.
+25-01-26.12:30:10.522 [main            ] INFO  EventPublisher         - 发送MQ消息 topic:send_award message:{"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"21522270898","timestamp":1737912610478}
+25-01-26.12:30:10.529 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-1] INFO  SendAwardCustomer      - 监听用户奖品发送消息 topic: send_award message: {"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"21522270898","timestamp":1737912610478}
+25-01-26.12:30:11.062 [main            ] INFO  EventPublisher         - 发送MQ消息 topic:send_award message:{"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"62415015349","timestamp":1737912611041}
+25-01-26.12:30:11.070 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-1] INFO  SendAwardCustomer      - 监听用户奖品发送消息 topic: send_award message: {"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"62415015349","timestamp":1737912611041}
+25-01-26.12:30:11.605 [main            ] INFO  EventPublisher         - 发送MQ消息 topic:send_award message:{"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"49328894858","timestamp":1737912611579}
+25-01-26.12:30:11.607 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-1] INFO  SendAwardCustomer      - 监听用户奖品发送消息 topic: send_award message: {"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"49328894858","timestamp":1737912611579}
+25-01-26.12:30:12.145 [main            ] INFO  EventPublisher         - 发送MQ消息 topic:send_award message:{"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"33258019684","timestamp":1737912612119}
+25-01-26.12:30:12.150 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-1] INFO  SendAwardCustomer      - 监听用户奖品发送消息 topic: send_award message: {"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"33258019684","timestamp":1737912612119}
+25-01-26.12:30:12.684 [main            ] INFO  EventPublisher         - 发送MQ消息 topic:send_award message:{"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"44753604546","timestamp":1737912612662}
+25-01-26.12:30:12.689 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-1] INFO  SendAwardCustomer      - 监听用户奖品发送消息 topic: send_award message: {"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"44753604546","timestamp":1737912612662}
+25-01-26.12:30:13.225 [main            ] INFO  EventPublisher         - 发送MQ消息 topic:send_award message:{"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"99480275337","timestamp":1737912613197}
+25-01-26.12:30:13.231 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-1] INFO  SendAwardCustomer      - 监听用户奖品发送消息 topic: send_award message: {"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"99480275337","timestamp":1737912613197}
+25-01-26.12:30:13.766 [main            ] INFO  EventPublisher         - 发送MQ消息 topic:send_award message:{"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"31635271487","timestamp":1737912613737}
+25-01-26.12:30:13.769 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-1] INFO  SendAwardCustomer      - 监听用户奖品发送消息 topic: send_award message: {"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"31635271487","timestamp":1737912613737}
+25-01-26.12:30:14.096 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Waiting for workers to finish.
+25-01-26.12:30:14.122 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-2] INFO  SimpleMessageListenerContainer - Waiting for workers to finish.
+25-01-26.12:30:14.304 [main            ] INFO  EventPublisher         - 发送MQ消息 topic:send_award message:{"data":{"awardId":101,"awardTitle":"OpenAI 增加使用次数","userId":"xiaofuge"},"id":"68549458723","timestamp":1737912614278}
+25-01-26.12:30:14.570 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#0-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
+25-01-26.12:30:14.778 [org.springframework.amqp.rabbit.RabbitListenerEndpointContainer#1-2] INFO  SimpleMessageListenerContainer - Successfully waited for workers to finish.
+25-01-26.12:30:14.785 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped
+25-01-26.12:30:14.786 [SpringApplicationShutdownHook] INFO  SimpleMessageListenerContainer - Shutdown ignored - container is already stopped

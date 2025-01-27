@@ -3,7 +3,7 @@ package cn.bugstack.trigger.api.dto;
 import lombok.Data;
 
 @Data
-public class RaffleRequestDTO {
+public class RaffleStrategyRequestDTO {
 
     private Long strategyId;
 

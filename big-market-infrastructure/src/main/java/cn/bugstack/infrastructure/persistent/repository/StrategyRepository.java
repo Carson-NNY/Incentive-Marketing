@@ -11,12 +11,15 @@ import cn.bugstack.domain.strategy.model.valobj.RuleTreeVO;
 import cn.bugstack.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 import cn.bugstack.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 import cn.bugstack.domain.strategy.repository.IStrategyRepository;
+import cn.bugstack.infrastructure.persistent.dao.IRaffleActivityAccountDayDao;
+import cn.bugstack.infrastructure.persistent.dao.IRaffleActivityDao;
 import cn.bugstack.infrastructure.persistent.dao.IRuleTreeDao;
 import cn.bugstack.infrastructure.persistent.dao.IRuleTreeNodeDao;
 import cn.bugstack.infrastructure.persistent.dao.IRuleTreeNodeLineDao;
 import cn.bugstack.infrastructure.persistent.dao.IStrategyAwardDao;
 import cn.bugstack.infrastructure.persistent.dao.IStrategyDao;
 import cn.bugstack.infrastructure.persistent.dao.IStrategyRuleDao;
+import cn.bugstack.infrastructure.persistent.po.RaffleActivityAccountDay;
 import cn.bugstack.infrastructure.persistent.po.RuleTree;
 import cn.bugstack.infrastructure.persistent.po.RuleTreeNode;
 import cn.bugstack.infrastructure.persistent.po.RuleTreeNodeLine;
@@ -57,6 +60,12 @@ public class StrategyRepository implements IStrategyRepository {
 
   @Resource
   private IStrategyAwardDao strategyAwardDao;
+
+  @Resource
+  private IRaffleActivityDao raffleActivityDao;
+
+  @Resource
+  private IRaffleActivityAccountDayDao raffleActivityAccountDayDao;
 
   @Resource
   private IRedisService redisService;
@@ -332,5 +341,25 @@ public class StrategyRepository implements IStrategyRepository {
     // 缓存数据
     redisService.setValue(cacheKey, strategyAwardEntity);
     return strategyAwardEntity;
+  }
+
+  @Override
+  public Long queryStrategyIdByActivityId(Long activityId) {
+    return raffleActivityDao.queryStrategyIdByActivityId(activityId);
+  }
+
+  @Override
+  public Integer queryTodayUserRaffleCount(String userId, Long strategyId) {
+    Long activityId = raffleActivityDao.queryActivityIdByStrategyId(strategyId);
+
+    RaffleActivityAccountDay raffleActivityAccountDayReq = new RaffleActivityAccountDay();
+    raffleActivityAccountDayReq.setUserId(userId);
+    raffleActivityAccountDayReq.setActivityId(activityId);
+    raffleActivityAccountDayReq.setDay(raffleActivityAccountDayReq.currentDay());
+    RaffleActivityAccountDay raffleActivityAccountDay = raffleActivityAccountDayDao.queryActivityAccountDayByUserId(raffleActivityAccountDayReq);
+    if (null == raffleActivityAccountDay) return 0; // 未抽奖过
+    // 总次数 - 剩余的，等于用户今日参与的抽奖次数
+    return raffleActivityAccountDay.getDayCount() - raffleActivityAccountDay.getDayCountSurplus();
+
   }
 }
