@@ -365,7 +365,7 @@ public class ActivityRepository implements IActivityRepository {
          throw new AppException(ResponseCode.INDEX_DUP.getCode(), e);
         }
       });
-    }  finally {
+    } finally {
       dbRouter.clear();
     }
   }
