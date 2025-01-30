@@ -38,6 +38,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -264,6 +265,11 @@ public class StrategyRepository implements IStrategyRepository {
 
   @Override
   public Boolean subtractionAwardStock(String cacheKey) {
+   return subtractionAwardStock(cacheKey, null);
+  }
+
+  @Override
+  public Boolean subtractionAwardStock(String cacheKey, Date endDateTime) {
     // decr 返回的是减少之后的值
     long surplus = redisService.decr(cacheKey);
     if (surplus < 0) {
@@ -275,7 +281,13 @@ public class StrategyRepository implements IStrategyRepository {
     // 1. 按照cacheKey decr 后的值，如 99、98、97 和 key 组成为库存锁的key进行使用。
     // 2. 加锁为了兜底，如果后续有恢复库存，手动处理等，也不会超卖。因为所有的可用库存key，都被加锁了!!!!
     String lockKey = cacheKey + Constants.UNDERLINE + surplus;
-    Boolean lock = redisService.setNx(lockKey); // return true if there is no this key in redis
+    Boolean lock;
+    if (null != endDateTime) {
+      long expireMillis = endDateTime.getTime() - System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1);
+      lock = redisService.setNx(lockKey, expireMillis, TimeUnit.SECONDS);
+    } else {
+      lock = redisService.setNx(lockKey); // return true if there is no this key in redis
+    }
     if (!lock) {
       log.info("策略奖品库存加锁失败 {}", lockKey);
     }

@@ -116,6 +116,7 @@ public class RaffleStrategyController implements IRaffleStrategyService {
 
       // 4. 查询规则配置 - 获取奖品的解锁限制, 抽奖N次后解锁
       Map<String, Integer> ruleLockCountMap = raffleRule.queryAwardRuleLockCount(treeIds);
+
       // 5. 查询抽奖次数: 用户已经参与抽奖的次数
       Integer dayPartakeCount = raffleActivityAccountQuotaService.queryRaffleActivityAccountDayPartakeCount(request.getActivityId(), request.getUserId());
       // 6. 遍历填充数据

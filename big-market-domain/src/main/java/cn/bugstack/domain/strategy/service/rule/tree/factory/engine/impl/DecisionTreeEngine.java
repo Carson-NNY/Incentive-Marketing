@@ -9,6 +9,7 @@ import cn.bugstack.domain.strategy.service.rule.tree.factory.DefaultTreeFactory;
 import cn.bugstack.domain.strategy.service.rule.tree.factory.engine.IDecisionTreeEngine;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
   }
 
   @Override
-  public DefaultTreeFactory.StrategyAwardVO process(String userId, Long strategyId, Integer awardId) {
+  public DefaultTreeFactory.StrategyAwardVO process(String userId, Long strategyId, Integer awardId, Date endDateTime) {
     DefaultTreeFactory.StrategyAwardVO strategyAwardData = null;
     String nextNode = ruleTreeVO.getTreeRootRuleNode();
     Map<String, RuleTreeNodeVO> treeNodeMap = ruleTreeVO.getTreeNodeMap();
@@ -44,7 +45,7 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
       String ruleValue = ruleTreeNode.getRuleValue();
 
 // 1	tree_lock	rule_lock	限定用户已完成N次抽奖后解锁	1(这个是针对于rule_lock Tree Node的rule value)	2024-01-27 10:03:09	2024-02-03 10:40:18
-      DefaultTreeFactory.TreeActionEntity logicEntity = logicTreeNode.logic(userId, strategyId, awardId, ruleValue);
+      DefaultTreeFactory.TreeActionEntity logicEntity = logicTreeNode.logic(userId, strategyId, awardId, ruleValue, endDateTime);
 
       RuleLogicCheckTypeVO ruleLogicCheckTypeVO = logicEntity.getRuleLogicCheckType();
       strategyAwardData = logicEntity.getStrategyAwardVO();

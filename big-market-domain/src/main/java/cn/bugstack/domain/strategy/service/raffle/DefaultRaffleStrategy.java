@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,11 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRa
 
   @Override
   public DefaultTreeFactory.StrategyAwardVO raffleLogicTree(String userId, Long strategyId, Integer awardId) {
+    return raffleLogicTree(userId, strategyId, awardId, null);
+  }
 
+  @Override
+  public DefaultTreeFactory.StrategyAwardVO raffleLogicTree(String userId, Long strategyId, Integer awardId, Date endDateTime) {
     // if no rule model for the award, just return the award since we don't need to check anything
 //    23	100006	102	随机积分	NULL	97	97	0.9700	tree_lock(这里是这个奖品对应的rule models)	1	2023-12-09 09:38:31	2024-02-03 11:17:10
     // 我们的逻辑就是根据这个抽到的奖品 会有哪些rule model来进行树的构建 进一步进行检查库存等关于这个奖品的check
@@ -57,7 +62,7 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRa
     // 工厂进行装配tree工厂的 engine装配
     IDecisionTreeEngine decisionTreeEngine = defaultTreeFactory.openLogicTree(ruleTreeVO);
     // 开始check
-    return decisionTreeEngine.process(userId, strategyId, awardId);
+    return decisionTreeEngine.process(userId, strategyId, awardId, endDateTime);
   }
 
   @Override

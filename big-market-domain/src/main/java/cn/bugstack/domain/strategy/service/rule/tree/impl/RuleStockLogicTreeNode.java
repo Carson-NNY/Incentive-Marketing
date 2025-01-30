@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @author Fuzhengwei bugstack.cn @小傅哥
@@ -30,10 +31,10 @@ public class RuleStockLogicTreeNode implements ILogicTreeNode {
   // overwhelmed by high-concurrency updates. Redis, being an in-memory database,
   // can handle a significantly higher throughput compared to traditional relational databases.
   @Override
-  public DefaultTreeFactory.TreeActionEntity logic(String userId, Long strategyId, Integer awardId, String ruleValue) {
+  public DefaultTreeFactory.TreeActionEntity logic(String userId, Long strategyId, Integer awardId, String ruleValue, Date endDateTime) {
 
     // 1. 扣减库存. 不直接更新DB, 先进行Redis的更新, 这样保证不会出现超卖的情况 + 保证了高并发下的性能
-    Boolean status = strategyDispatch.subtractionAwardStock(strategyId, awardId);
+    Boolean status = strategyDispatch.subtractionAwardStock(strategyId, awardId, endDateTime);
 
     // 2. Redis扣减成功, 证明没有超卖, 加入发奖队列
     if (status) {
