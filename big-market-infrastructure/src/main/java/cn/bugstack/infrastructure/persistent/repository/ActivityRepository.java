@@ -156,7 +156,7 @@ public class ActivityRepository implements IActivityRepository {
       raffleActivityOrder.setState(activityOrderEntity.getState().getCode());
       raffleActivityOrder.setOutBusinessNo(activityOrderEntity.getOutBusinessNo());
 
-      // 账户对象
+      // 账户对象 - 总账户
       RaffleActivityAccount raffleActivityAccount = new RaffleActivityAccount();
       raffleActivityAccount.setUserId(createOrderAggregate.getUserId());
       raffleActivityAccount.setActivityId(createOrderAggregate.getActivityId());
@@ -166,6 +166,23 @@ public class ActivityRepository implements IActivityRepository {
       raffleActivityAccount.setDayCountSurplus(createOrderAggregate.getDayCount());
       raffleActivityAccount.setMonthCount(createOrderAggregate.getMonthCount());
       raffleActivityAccount.setMonthCountSurplus(createOrderAggregate.getMonthCount());
+
+
+      // 账户对象 - 月
+      RaffleActivityAccountMonth raffleActivityAccountMonth = new RaffleActivityAccountMonth();
+      raffleActivityAccountMonth.setUserId(createOrderAggregate.getUserId());
+      raffleActivityAccountMonth.setActivityId(createOrderAggregate.getActivityId());
+      raffleActivityAccountMonth.setMonth(raffleActivityAccountMonth.currentMonth());
+      raffleActivityAccountMonth.setMonthCount(createOrderAggregate.getMonthCount());
+      raffleActivityAccountMonth.setMonthCountSurplus(createOrderAggregate.getMonthCount());
+
+      // 账户对象 - 日
+      RaffleActivityAccountDay raffleActivityAccountDay = new RaffleActivityAccountDay();
+      raffleActivityAccountDay.setUserId(createOrderAggregate.getUserId());
+      raffleActivityAccountDay.setActivityId(createOrderAggregate.getActivityId());
+      raffleActivityAccountDay.setDay(raffleActivityAccountDay.currentDay());
+      raffleActivityAccountDay.setDayCount(createOrderAggregate.getDayCount());
+      raffleActivityAccountDay.setDayCountSurplus(createOrderAggregate.getDayCount());
 
       // 以用户ID作为切分键，通过 doRouter 设定路由【这样就保证了下面的操作，都是同一个链接下，也就保证了事务的特性】
       // 这个DBRouter就是用来分库分表的，key是分库分表的依据，这里是userId. whenever you want to insert a new record,
@@ -183,6 +200,12 @@ public class ActivityRepository implements IActivityRepository {
           if (count == 0) {
             raffleActivityAccountDao.insert(raffleActivityAccount);
           }
+          // 更新月账户
+          raffleActivityAccountMonthDao.addAccountQuota(raffleActivityAccountMonth);
+
+          // 更新日账户
+          raffleActivityAccountDayDao.addAccountQuota(raffleActivityAccountDay);
+
           return 1;
         } catch (DuplicateKeyException e) {
           // 重复下单的异常处理 (重复下单可能是之前网络超时或者其他问题导致的订单已经被写入数据库但是未能返回成功信息给用户的情况)

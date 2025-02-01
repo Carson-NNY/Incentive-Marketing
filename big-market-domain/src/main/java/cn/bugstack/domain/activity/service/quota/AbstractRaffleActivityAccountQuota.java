@@ -46,14 +46,14 @@ public abstract class AbstractRaffleActivityAccountQuota extends RaffleActivityA
         // 2.3 查询次数信息（用户在活动上可参与的次数）
         ActivityCountEntity activityCountEntity = queryRaffleActivityCountByActivityCountId(activitySkuEntity.getActivityCountId());
 
-        // 3. 活动动作规则校验
+        // 3. 活动动作规则校验, 然后会执行一系列的动作(更新cache中的库存(减少), 更新数据库中sku的总库存(减少))
         IActionChain actionChain = defaultActivityChainFactory.openActionChain();
         actionChain.action(activitySkuEntity, activityEntity, activityCountEntity);
 
         // 4. 构建订单聚合对象
         CreateQuotaOrderAggregate createOrderAggregate = buildOrderAggregate(skuRechargeEntity, activitySkuEntity, activityEntity, activityCountEntity);
 
-        // 5. 保存订单流水 (这里面就是通过聚合对象对一个事务进行处理: 保存这个用户购买/抽取的抽奖订单,并且更新数据库用户account的quota)
+        // 5. 保存订单流水 (这里面就是通过聚合对象对一个事务进行处理: 保存这个用户购买/抽取的抽奖订单,并且更新数据库用户account的quota(增加qupta))
         doSaveOrder(createOrderAggregate);
         // 6. 返回单号
         return createOrderAggregate.getActivityOrderEntity().getOrderId();
