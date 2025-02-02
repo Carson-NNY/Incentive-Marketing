@@ -63,7 +63,7 @@ public class StrategyRuleEntity {
       // 将键和值放入Map中
       resultMap.put(ruleValueGroup, values);
     }
-
+  // 最后结果的数据结构为：{"4000:102,103,104,105": [102, 103, 104, 105],...}
     return resultMap;
   }
 

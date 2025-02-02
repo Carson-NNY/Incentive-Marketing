@@ -4,6 +4,8 @@ import cn.bugstack.trigger.api.dto.RaffleAwardListRequestDTO;
 import cn.bugstack.trigger.api.dto.RaffleAwardListResponseDTO;
 import cn.bugstack.trigger.api.dto.RaffleStrategyRequestDTO;
 import cn.bugstack.trigger.api.dto.RaffleStrategyResponseDTO;
+import cn.bugstack.trigger.api.dto.RaffleStrategyRuleWeightRequestDTO;
+import cn.bugstack.trigger.api.dto.RaffleStrategyRuleWeightResponseDTO;
 import cn.bugstack.types.model.Response;
 
 import java.util.List;
@@ -27,6 +29,8 @@ public interface IRaffleStrategyService {
    * @return
    */
   Response<List<RaffleAwardListResponseDTO>> queryRaffleAwardList(RaffleAwardListRequestDTO requestDTO);
+
+  Response<List<RaffleStrategyRuleWeightResponseDTO>> queryRaffleStrategyRuleWeight(RaffleStrategyRuleWeightRequestDTO requestDTO);
 
   /**
    * 随机抽奖接口

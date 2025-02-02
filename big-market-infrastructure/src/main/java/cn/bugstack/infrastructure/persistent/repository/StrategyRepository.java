@@ -1,5 +1,6 @@
 package cn.bugstack.infrastructure.persistent.repository;
 
+import cn.bugstack.domain.activity.service.quota.RaffleActivityAccountQuotaService;
 import cn.bugstack.domain.strategy.model.entity.StrategyAwardEntity;
 import cn.bugstack.domain.strategy.model.entity.StrategyEntity;
 import cn.bugstack.domain.strategy.model.entity.StrategyRuleEntity;
@@ -8,9 +9,12 @@ import cn.bugstack.domain.strategy.model.valobj.RuleLogicCheckTypeVO;
 import cn.bugstack.domain.strategy.model.valobj.RuleTreeNodeLineVO;
 import cn.bugstack.domain.strategy.model.valobj.RuleTreeNodeVO;
 import cn.bugstack.domain.strategy.model.valobj.RuleTreeVO;
+import cn.bugstack.domain.strategy.model.valobj.RuleWeightVO;
 import cn.bugstack.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 import cn.bugstack.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 import cn.bugstack.domain.strategy.repository.IStrategyRepository;
+import cn.bugstack.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
+import cn.bugstack.infrastructure.persistent.dao.IRaffleActivityAccountDao;
 import cn.bugstack.infrastructure.persistent.dao.IRaffleActivityAccountDayDao;
 import cn.bugstack.infrastructure.persistent.dao.IRaffleActivityDao;
 import cn.bugstack.infrastructure.persistent.dao.IRuleTreeDao;
@@ -19,6 +23,7 @@ import cn.bugstack.infrastructure.persistent.dao.IRuleTreeNodeLineDao;
 import cn.bugstack.infrastructure.persistent.dao.IStrategyAwardDao;
 import cn.bugstack.infrastructure.persistent.dao.IStrategyDao;
 import cn.bugstack.infrastructure.persistent.dao.IStrategyRuleDao;
+import cn.bugstack.infrastructure.persistent.po.RaffleActivityAccount;
 import cn.bugstack.infrastructure.persistent.po.RaffleActivityAccountDay;
 import cn.bugstack.infrastructure.persistent.po.RuleTree;
 import cn.bugstack.infrastructure.persistent.po.RuleTreeNode;
@@ -32,6 +37,7 @@ import cn.bugstack.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBlockingQueue;
 import org.redisson.api.RDelayedQueue;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -42,6 +48,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import static cn.bugstack.types.enums.ResponseCode.UN_ASSEMBLED_STRATEGY_ARMORY;
@@ -69,6 +76,9 @@ public class StrategyRepository implements IStrategyRepository {
   private IRaffleActivityAccountDayDao raffleActivityAccountDayDao;
 
   @Resource
+  private IRaffleActivityAccountDao raffleActivityAccountDao;
+
+  @Resource
   private IRedisService redisService;
 
   @Resource
@@ -79,6 +89,8 @@ public class StrategyRepository implements IStrategyRepository {
 
   @Resource
   private IRuleTreeNodeLineDao ruleTreeNodeLineDao;
+  @Autowired
+  private RaffleActivityAccountQuotaService raffleActivityAccountQuotaService;
 
   @Override
   public List<StrategyAwardEntity> queryStrategyAwardList(Long strategyId) {
@@ -387,5 +399,70 @@ public class StrategyRepository implements IStrategyRepository {
       resultMap.put(treeId, ruleValue);
     }
     return resultMap;
+  }
+
+  @Override
+  public Integer queryActivityAccountTotalUseCount(String userId, Long strategyId) {
+    Long activityId = raffleActivityDao.queryActivityIdByStrategyId(strategyId);
+    RaffleActivityAccount raffleActivityAccount = raffleActivityAccountDao.queryActivityAccountByUserId(RaffleActivityAccount.builder()
+        .userId(userId)
+        .activityId(activityId)
+        .build());
+    // 总次数 - 剩余的，等于用户总共参与的抽奖次数
+    return raffleActivityAccount.getTotalCount() - raffleActivityAccount.getTotalCountSurplus();
+
+  }
+
+  @Override
+  public List<RuleWeightVO> queryAwardRuleWeight(Long strategyId) {
+    // 优先从缓存获取
+    String cacheKey = Constants.RedisKey.STRATEGY_RULE_WEIGHT_KEY + strategyId;
+    List<RuleWeightVO> ruleWeightVOS = redisService.getValue(cacheKey);
+    if (null != ruleWeightVOS) return ruleWeightVOS;
+
+    ruleWeightVOS = new ArrayList<>();
+
+    // 1. 查询权重规则配置
+    StrategyRule strategyRuleReq = new StrategyRule();
+    strategyRuleReq.setStrategyId(strategyId);
+    strategyRuleReq.setRuleModel(DefaultChainFactory.LogicModel.RULE_WEIGHT.getCode());
+    String ruleValue = strategyRuleDao.queryStrategyRuleValue(strategyRuleReq);
+
+    // 2. 使用实体对象转换规则
+    StrategyRuleEntity strategyRuleEntity = new StrategyRuleEntity();
+    strategyRuleEntity.setRuleModel(DefaultChainFactory.LogicModel.RULE_WEIGHT.getCode());
+    strategyRuleEntity.setRuleValue(ruleValue);
+    Map<String, List<Integer>> ruleWeightValues = strategyRuleEntity.getRuleWeightValues();
+    Set<String> ruleWeightKeys = ruleWeightValues.keySet();
+    for (String ruleWeightKey : ruleWeightKeys) {
+      // ruleWeightKey: 4000:102,103,104,105, ...
+      List<Integer> awardIds = ruleWeightValues.get(ruleWeightKey);
+      List<RuleWeightVO.Award> awardList = new ArrayList<>();
+      for (Integer awardId : awardIds) {
+        StrategyAward strategyAwardReq = new StrategyAward();
+        strategyAwardReq.setStrategyId(strategyId);
+        strategyAwardReq.setAwardId(awardId);
+        StrategyAward strategyAward = strategyAwardDao.queryStrategyAward(strategyAwardReq);
+        awardList.add(RuleWeightVO.Award.builder()
+            .awardId(strategyAward.getAwardId())
+            .awardTitle(strategyAward.getAwardTitle())
+            .build());
+      }
+
+      // 所有variable的解释:
+      // ruleValue: 60:102 4000:102,103,104,105 5000:102,103,104,105,106,107 6000:102,103,104,105,106,107,108
+      // weight: 60, ..
+      // awardIds: 102,103,104,105, ...
+      ruleWeightVOS.add(RuleWeightVO.builder()
+          .ruleValue(ruleValue)
+          .weight(Integer.valueOf(ruleWeightKey.split(Constants.COLON)[0]))
+          .awardIds(awardIds)
+          .awardList(awardList)
+          .build());
+
+    }
+
+    redisService.setValue(cacheKey, ruleWeightVOS);
+    return ruleWeightVOS;
   }
 }

@@ -32,7 +32,6 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
   @Resource
   protected IStrategyDispatch strategyDispatch;
 
-  public Long userScore = 0L;
 
   /**
    * 权重责任链过滤；
@@ -45,7 +44,7 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
 
     String ruleValue = repository.queryStrategyRuleValue(strategyId, ruleModel());
 
-    // 1. 根据用户ID查询用户抽奖消耗的积分值，本章节我们先写死为固定的值。后续需要从数据库中查询。
+    // 1. 解析权重规则值 4000:102,103,104,105 拆解为；4000 -> 4000:102,103,104,105 便于比对判断
     Map<Long, String> analyticalValueGroup = getAnalyticalValue(ruleValue);
     if (null == analyticalValueGroup || analyticalValueGroup.isEmpty()) {
       return null;
@@ -57,6 +56,7 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
 
     // 3. 找出最小符合的值，也就是【4500 积分，能找到 4000:102,103,104,105】、【5000 积分，能找到 5000:102,103,104,105,106,107】
     // find The first key that satisfies userScore >= key, or null if no such key exists.
+   Integer userScore = repository.queryActivityAccountTotalUseCount(userId, strategyId);
     Long nextValue = analyticalSortedKeys.stream()
         .filter(key -> userScore >= key)
         .findFirst()
