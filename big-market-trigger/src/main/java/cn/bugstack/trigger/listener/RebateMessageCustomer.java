@@ -41,7 +41,7 @@ public class RebateMessageCustomer {
         return;
       }
 
-      // 2. 入账奖励
+      // 2. 入账奖励(实际更新增加用户的总/月/日次数)
       SkuRechargeEntity skuRechargeEntity = new SkuRechargeEntity();
       skuRechargeEntity.setUserId(rebateMessage.getUserId());
       skuRechargeEntity.setSku(Long.valueOf(rebateMessage.getRebateConfig()));
