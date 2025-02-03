@@ -435,7 +435,7 @@ public class StrategyRepository implements IStrategyRepository {
     Map<String, List<Integer>> ruleWeightValues = strategyRuleEntity.getRuleWeightValues();
     Set<String> ruleWeightKeys = ruleWeightValues.keySet();
     for (String ruleWeightKey : ruleWeightKeys) {
-      // ruleWeightKey: 4000:102,103,104,105, ...
+      // ruleWeightKey: "4000:102,103,104,105", ...
       List<Integer> awardIds = ruleWeightValues.get(ruleWeightKey);
       List<RuleWeightVO.Award> awardList = new ArrayList<>();
       for (Integer awardId : awardIds) {
