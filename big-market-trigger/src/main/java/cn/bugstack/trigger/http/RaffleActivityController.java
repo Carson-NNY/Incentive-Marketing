@@ -125,7 +125,7 @@ public class RaffleActivityController implements IRaffleActivityService {
       if (StringUtils.isBlank(request.getUserId()) || null == request.getActivityId()) {
         throw new AppException(ResponseCode.ILLEGAL_PARAMETER.getCode(), ResponseCode.ILLEGAL_PARAMETER.getInfo());
       }
-      // 2. 参与活动 - 创建参与记录订单
+      // 2. 参与活动 - 创建参与记录订单( 并且进行了用户账户额度的扣减)
       UserRaffleOrderEntity orderEntity = raffleActivityPartakeService.createOrder(request.getUserId(), request.getActivityId());
       log.info("活动抽奖，创建订单 userId:{} activityId:{} orderId:{}", request.getUserId(), request.getActivityId(), orderEntity.getOrderId());
 
@@ -146,6 +146,7 @@ public class RaffleActivityController implements IRaffleActivityService {
           .awardTitle(raffleAwardEntity.getAwardTitle())
           .awardTime(new Date())
           .awardState(AwardStateVO.create)
+          .awardConfig(raffleAwardEntity.getAwardConfig())
           .build();
       awardService.saveUserAwardRecord(userAwardRecord);
       // 5. 返回结果
