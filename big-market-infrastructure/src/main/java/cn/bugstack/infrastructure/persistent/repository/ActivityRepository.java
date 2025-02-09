@@ -41,6 +41,7 @@ import cn.bugstack.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBlockingQueue;
 import org.redisson.api.RDelayedQueue;
+import org.redisson.api.RLock;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -139,7 +140,15 @@ public class ActivityRepository implements IActivityRepository {
 
   @Override
   public void doSaveOrder(CreateQuotaOrderAggregate createOrderAggregate) {
+    // 这里加锁的意义在于在高并发情况下, 有可能下面的操作会因为我们的系统设计(异步消息+多线程处理)导致两个异步消息被不同的机器同时消费:
+    // 例如: 一个用户 分别进行了签到, 然后同时又支付去购买更多次数. 这些操作的底层数据库更新不会立即执行因为我们使用了异步消息.
+    // 由于签到和make payment是两个不同的服务, 所以存在可能性这两个异步消息同时到这里, 而且打比方 这个用户是新的用户, 数据库中没有他的 raffleActivityAccount.
+    // 这种情况下, 由于我们使用了异步消息, 两个消息同时到这里, 会导致两个线程同时尝试创建账户, 但是由于数据库的唯一索引, 会导致其中一个线程失败抛异常.
+    // 我们加锁的目的就是为了避免这种情况, 保证同一个用户的操作是串行的, 也就是说, 一个用户的操作必须等到上一个操作完成, 这样就避免的唯一索引异常
+    RLock lock = redisService.getLock(Constants.RedisKey.ACTIVITY_ACCOUNT_LOCK + createOrderAggregate.getUserId() + Constants.UNDERLINE + createOrderAggregate.getActivityId());
+
     try {
+      lock.lock(3, TimeUnit.SECONDS);
       // 订单对象
       ActivityOrderEntity activityOrderEntity = createOrderAggregate.getActivityOrderEntity();
       RaffleActivityOrder raffleActivityOrder = new RaffleActivityOrder();
@@ -195,11 +204,13 @@ public class ActivityRepository implements IActivityRepository {
           // 写入订单
           raffleActivityOrderDao.insert(raffleActivityOrder);
           // 更新账户
-          int count = raffleActivityAccountDao.updateAccountQuota(raffleActivityAccount);
-          // 如果count=0说明账号不存在，需要创建账号
-          if (count == 0) {
+          RaffleActivityAccount raffleActivityAccountRes = raffleActivityAccountDao.queryAccountByUserId(raffleActivityAccount);
+          if (null == raffleActivityAccountRes) {
             raffleActivityAccountDao.insert(raffleActivityAccount);
+          } else {
+            raffleActivityAccountDao.updateAccountQuota(raffleActivityAccount);
           }
+
           // 更新月账户
           raffleActivityAccountMonthDao.addAccountQuota(raffleActivityAccountMonth);
 
@@ -216,6 +227,7 @@ public class ActivityRepository implements IActivityRepository {
       });
     } finally {
       dbRouter.clear(); // in the end of the transaction, clear the router
+      lock.unlock();
     }
   }
 
