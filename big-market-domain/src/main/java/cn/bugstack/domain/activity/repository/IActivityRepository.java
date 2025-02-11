@@ -10,6 +10,9 @@ import cn.bugstack.domain.activity.model.entity.ActivityEntity;
 import cn.bugstack.domain.activity.model.entity.ActivitySkuEntity;
 import cn.bugstack.domain.activity.model.entity.DeliveryOrderEntity;
 import cn.bugstack.domain.activity.model.entity.PartakeRaffleActivityEntity;
+import cn.bugstack.domain.activity.model.entity.SkuProductEntity;
+import cn.bugstack.domain.activity.model.entity.SkuRechargeEntity;
+import cn.bugstack.domain.activity.model.entity.UnpaidActivityOrderEntity;
 import cn.bugstack.domain.activity.model.entity.UserRaffleOrderEntity;
 import cn.bugstack.domain.activity.model.valobj.ActivitySkuStockKeyVO;
 
@@ -66,4 +69,8 @@ public interface IActivityRepository {
   Integer queryRaffleActivityAccountPartakeCount(Long activityId, String userId);
 
   void updateOrder(DeliveryOrderEntity deliveryOrderEntity);
+
+  UnpaidActivityOrderEntity queryUnpaidActivityOrder(SkuRechargeEntity skuRechargeEntity);
+
+  List<SkuProductEntity> querySkuProductEntityListByActivityId(Long activityId);
 }

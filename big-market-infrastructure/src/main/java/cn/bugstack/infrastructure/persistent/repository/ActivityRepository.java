@@ -12,6 +12,9 @@ import cn.bugstack.domain.activity.model.entity.ActivityOrderEntity;
 import cn.bugstack.domain.activity.model.entity.ActivitySkuEntity;
 import cn.bugstack.domain.activity.model.entity.DeliveryOrderEntity;
 import cn.bugstack.domain.activity.model.entity.PartakeRaffleActivityEntity;
+import cn.bugstack.domain.activity.model.entity.SkuProductEntity;
+import cn.bugstack.domain.activity.model.entity.SkuRechargeEntity;
+import cn.bugstack.domain.activity.model.entity.UnpaidActivityOrderEntity;
 import cn.bugstack.domain.activity.model.entity.UserRaffleOrderEntity;
 import cn.bugstack.domain.activity.model.valobj.ActivitySkuStockKeyVO;
 import cn.bugstack.domain.activity.model.valobj.ActivityStateVO;
@@ -282,6 +285,7 @@ public class ActivityRepository implements IActivityRepository {
 
   @Override
   public boolean substractionActivitySkuStock(Long sku, String cacheKey, Date endDateTime) {
+    Object value = redisService.getValue(cacheKey);
     long surplus = redisService.decr(cacheKey);
     if (surplus == 0) {
       // 库存消耗没了后 发送MQ消息, 更新数据库库存
@@ -687,6 +691,45 @@ public class ActivityRepository implements IActivityRepository {
       lock.unlock();
     }
 
+  }
+
+  @Override
+  public UnpaidActivityOrderEntity queryUnpaidActivityOrder(SkuRechargeEntity skuRechargeEntity) {
+    RaffleActivityOrder raffleActivityOrderReq = new RaffleActivityOrder();
+    raffleActivityOrderReq.setUserId(skuRechargeEntity.getUserId());
+    raffleActivityOrderReq.setSku(skuRechargeEntity.getSku());
+    RaffleActivityOrder raffleActivityOrderRes = raffleActivityOrderDao.queryUnpaidActivityOrder(raffleActivityOrderReq);
+    if (null == raffleActivityOrderRes) return null;
+    return UnpaidActivityOrderEntity.builder()
+        .userId(raffleActivityOrderRes.getUserId())
+        .orderId(raffleActivityOrderRes.getOrderId())
+        .outBusinessNo(raffleActivityOrderRes.getOutBusinessNo())
+        .payAmount(raffleActivityOrderRes.getPayAmount())
+        .build();
+  }
+
+  @Override
+  public List<SkuProductEntity> querySkuProductEntityListByActivityId(Long activityId) {
+    List<RaffleActivitySku> raffleActivitySkus = raffleActivitySkuDao.queryActivitySkuListByActivityId(activityId);
+    List<SkuProductEntity> skuProductEntities = new ArrayList<>(raffleActivitySkus.size());
+    for (RaffleActivitySku raffleActivitySku : raffleActivitySkus){
+      RaffleActivityCount raffleActivityCount = raffleActivityCountDao.queryRaffleActivityCountByActivityCountId(raffleActivitySku.getActivityCountId());
+      SkuProductEntity.ActivityCount activityCount = new SkuProductEntity.ActivityCount();
+      activityCount.setTotalCount(raffleActivityCount.getTotalCount());
+      activityCount.setDayCount(raffleActivityCount.getDayCount());
+      activityCount.setMonthCount(raffleActivityCount.getMonthCount());
+
+      skuProductEntities.add(SkuProductEntity.builder()
+          .sku(raffleActivitySku.getSku())
+          .activityId(raffleActivitySku.getActivityId())
+          .activityCountId(raffleActivitySku.getActivityCountId())
+          .stockCount(raffleActivitySku.getStockCount())
+          .stockCountSurplus(raffleActivitySku.getStockCountSurplus())
+          .productAmount(raffleActivitySku.getProductAmount())
+          .activityCount(activityCount)
+          .build());
+    }
+    return skuProductEntities;
   }
 
 

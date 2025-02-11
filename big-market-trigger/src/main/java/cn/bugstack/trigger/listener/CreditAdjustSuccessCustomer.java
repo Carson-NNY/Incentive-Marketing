@@ -34,7 +34,7 @@ public class CreditAdjustSuccessCustomer {
       }.getType());
       CreditAdjustSuccessMessageEvent.CreditAdjustSuccessMessage creditAdjustSuccessMessage = eventMessage.getData();
 
-      // 积分发货
+      // 积分发货 -> 底层去数据库增加抽奖的总/月/日次数
       DeliveryOrderEntity deliveryOrderEntity = new DeliveryOrderEntity();
       deliveryOrderEntity.setUserId(creditAdjustSuccessMessage.getUserId());
       deliveryOrderEntity.setOutBusinessNo(creditAdjustSuccessMessage.getOutBusinessNo());

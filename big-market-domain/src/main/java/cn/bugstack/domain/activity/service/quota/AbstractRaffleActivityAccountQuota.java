@@ -3,8 +3,10 @@ package cn.bugstack.domain.activity.service.quota;
 import cn.bugstack.domain.activity.model.aggregate.CreateQuotaOrderAggregate;
 import cn.bugstack.domain.activity.model.entity.ActivityCountEntity;
 import cn.bugstack.domain.activity.model.entity.ActivityEntity;
+import cn.bugstack.domain.activity.model.entity.ActivityOrderEntity;
 import cn.bugstack.domain.activity.model.entity.ActivitySkuEntity;
 import cn.bugstack.domain.activity.model.entity.SkuRechargeEntity;
+import cn.bugstack.domain.activity.model.entity.UnpaidActivityOrderEntity;
 import cn.bugstack.domain.activity.repository.IActivityRepository;
 import cn.bugstack.domain.activity.service.IRaffleActivityAccountQuotaService;
 import cn.bugstack.domain.activity.service.quota.policy.ITradePolicy;
@@ -38,7 +40,7 @@ public abstract class AbstractRaffleActivityAccountQuota extends RaffleActivityA
 
     // note: 这个主要是用户来领取抽奖机会的地方(通过充值/每日签到 来增加总账户的额度)
     @Override
-    public String createOrder(SkuRechargeEntity skuRechargeEntity) {
+    public UnpaidActivityOrderEntity createOrder(SkuRechargeEntity skuRechargeEntity) {
 
         // 1. 参数校验
         String userId = skuRechargeEntity.getUserId();
@@ -47,6 +49,11 @@ public abstract class AbstractRaffleActivityAccountQuota extends RaffleActivityA
         if (null == sku || StringUtils.isBlank(userId) || StringUtils.isBlank(outBusinessNo)) {
             throw new AppException(ResponseCode.ILLEGAL_PARAMETER.getCode(), ResponseCode.ILLEGAL_PARAMETER.getInfo());
         }
+
+        // 由于存在并发带来的之前用户下了多个订单同时支付,有的订单支付成功,有的订单支付失败因为积分不足,这样导致了有的订单下单了但是还是未支付
+        // 状态, 所以我们这里需要先查询是否有未支付订单
+        UnpaidActivityOrderEntity unpaidActivityOrderEntity = activityRepository.queryUnpaidActivityOrder(skuRechargeEntity);
+        if (null != unpaidActivityOrderEntity) return unpaidActivityOrderEntity;
 
         // 2. 查询基础信息
         // 2.1 通过sku查询活动信息
@@ -69,8 +76,14 @@ public abstract class AbstractRaffleActivityAccountQuota extends RaffleActivityA
         //(这里面就是通过聚合对象对一个事务进行处理: 保存这个用户购买/抽取的抽奖订单,并且更新数据库用户account的quota(增加qupta))
         tradePolicy.trade(createOrderAggregate);
 
-        // 6. 返回单号
-        return createOrderAggregate.getActivityOrderEntity().getOrderId();
+        // 6
+        ActivityOrderEntity activityOrderEntity = createOrderAggregate.getActivityOrderEntity();
+        return UnpaidActivityOrderEntity.builder()
+                .userId(userId)
+                .orderId(activityOrderEntity.getOrderId())
+                .outBusinessNo(outBusinessNo)
+                .payAmount(activityOrderEntity.getPayAmount())
+                .build();
     }
 
     protected abstract CreateQuotaOrderAggregate buildOrderAggregate(SkuRechargeEntity skuRechargeEntity, ActivitySkuEntity activitySkuEntity, ActivityEntity activityEntity, ActivityCountEntity activityCountEntity);

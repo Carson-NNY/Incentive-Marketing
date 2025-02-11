@@ -56,7 +56,7 @@ public class RebateMessageCustomer {
           skuRechargeEntity.setOrderTradeType(OrderTradeTypeVO.rebate_no_pay_trade);
           raffleActivityAccountQuotaService.createOrder(skuRechargeEntity);
           break;
-        case "integral": // integral 代表积分...小傅哥英文不太好，哈哈哈
+        case "integral": // integral 代表积分...小傅哥英文不太好，哈哈哈. -> 消费credit去买抽奖次数
           TradeEntity tradeEntity = new TradeEntity();
           tradeEntity.setUserId(rebateMessage.getUserId());
           tradeEntity.setTradeName(TradeNameVO.REBATE);

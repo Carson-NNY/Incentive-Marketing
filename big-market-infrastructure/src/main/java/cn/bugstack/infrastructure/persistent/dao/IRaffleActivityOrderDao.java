@@ -25,4 +25,7 @@ public interface IRaffleActivityOrderDao {
   RaffleActivityOrder queryRaffleActivityOrder(RaffleActivityOrder raffleActivityOrderReq);
 
   int updateOrderCompleted(RaffleActivityOrder raffleActivityOrderReq);
+
+  @DBRouter
+  RaffleActivityOrder queryUnpaidActivityOrder(RaffleActivityOrder raffleActivityOrderReq);
 }

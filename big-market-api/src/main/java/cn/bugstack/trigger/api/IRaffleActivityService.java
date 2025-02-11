@@ -2,9 +2,14 @@ package cn.bugstack.trigger.api;
 
 import cn.bugstack.trigger.api.dto.ActivityDrawRequestDTO;
 import cn.bugstack.trigger.api.dto.ActivityDrawResponseDTO;
+import cn.bugstack.trigger.api.dto.SkuProductResponseDTO;
+import cn.bugstack.trigger.api.dto.SkuProductShopCartRequestDTO;
 import cn.bugstack.trigger.api.dto.UserActivityAccountRequestDTO;
 import cn.bugstack.trigger.api.dto.UserActivityAccountResponseDTO;
 import cn.bugstack.types.model.Response;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author Fuzhengwei bugstack.cn @小傅哥
@@ -47,4 +52,10 @@ public interface IRaffleActivityService {
 
 
   Response<UserActivityAccountResponseDTO> queryUserActivityAccount(UserActivityAccountRequestDTO request);
+
+  Response<List<SkuProductResponseDTO>> querySkuProductListByActivityId(Long activityId);
+
+  Response<BigDecimal> queryUserCreditAccount(String userId);
+
+  Response<Boolean> creditPayExchangeSku(SkuProductShopCartRequestDTO request);
 }
