@@ -2,6 +2,7 @@ package cn.bugstack.infrastructure.persistent.po;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -64,6 +65,10 @@ public class RaffleActivityOrder {
    */
   private Integer monthCount;
 
+  /**
+   * 订单支付金额[积分]
+   */
+  private BigDecimal payAmount;
   /**
    * 订单状态
    */

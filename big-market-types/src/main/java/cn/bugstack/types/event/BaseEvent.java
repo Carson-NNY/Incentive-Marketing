@@ -24,7 +24,7 @@ public abstract class BaseEvent<T> {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class EventMessage<T> {
-        private String id;
+        private String id; // 防重ID: 如果两个MQ重新发, 最终会保证只会处理一次
         private Date timestamp;
         private T data;
     }

@@ -8,6 +8,7 @@ import cn.bugstack.domain.activity.model.entity.ActivityAccountMonthEntity;
 import cn.bugstack.domain.activity.model.entity.ActivityCountEntity;
 import cn.bugstack.domain.activity.model.entity.ActivityEntity;
 import cn.bugstack.domain.activity.model.entity.ActivitySkuEntity;
+import cn.bugstack.domain.activity.model.entity.DeliveryOrderEntity;
 import cn.bugstack.domain.activity.model.entity.PartakeRaffleActivityEntity;
 import cn.bugstack.domain.activity.model.entity.UserRaffleOrderEntity;
 import cn.bugstack.domain.activity.model.valobj.ActivitySkuStockKeyVO;
@@ -22,13 +23,15 @@ import java.util.List;
  */
 public interface IActivityRepository {
 
-    ActivitySkuEntity queryActivitySku(Long sku);
+  ActivitySkuEntity queryActivitySku(Long sku);
 
-    ActivityEntity queryRaffleActivityByActivityId(Long activityId);
+  ActivityEntity queryRaffleActivityByActivityId(Long activityId);
 
-    ActivityCountEntity queryRaffleActivityCountByActivityCountId(Long activityCountId);
+  ActivityCountEntity queryRaffleActivityCountByActivityCountId(Long activityCountId);
 
-  void doSaveOrder(CreateQuotaOrderAggregate createOrderAggregate);
+  void doSaveNoPayOrder(CreateQuotaOrderAggregate createOrderAggregate);
+
+  void doSaveCreditPayOrder(CreateQuotaOrderAggregate createQuotaOrderAggregate);
 
   void cacheActivitySkuStockCount(String cacheKey, Integer stockCount);
 
@@ -61,4 +64,6 @@ public interface IActivityRepository {
   ActivityAccountEntity queryActivityAccountEntity(Long activityId, String userId);
 
   Integer queryRaffleActivityAccountPartakeCount(Long activityId, String userId);
+
+  void updateOrder(DeliveryOrderEntity deliveryOrderEntity);
 }
