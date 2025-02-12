@@ -15,6 +15,8 @@ import cn.bugstack.infrastructure.persistent.po.UserCreditOrder;
 import cn.bugstack.infrastructure.persistent.redis.IRedisService;
 import cn.bugstack.middleware.db.router.strategy.IDBRouterStrategy;
 import cn.bugstack.types.common.Constants;
+import cn.bugstack.types.enums.ResponseCode;
+import cn.bugstack.types.exception.AppException;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -83,15 +86,25 @@ public class CreditRepository implements ICreditRepository {
       dbRouter.doRouter(userId);
       transactionTemplate.execute(status ->{
         try{
+          // 1. 保存账户积分
           UserCreditAccount userCreditAccount = userCreditAccountDao.queryUserCreditAccount(userCreditAccountReq);
-          if(userCreditAccount == null){
+          if (null == userCreditAccount) {
             userCreditAccountDao.insert(userCreditAccountReq);
           } else {
-            userCreditAccountDao.updateAddAmount(userCreditAccountReq);
+            BigDecimal availableAmount = userCreditAccountReq.getAvailableAmount();
+            if (availableAmount.compareTo(BigDecimal.ZERO) >= 0) {
+              userCreditAccountDao.updateAddAmount(userCreditAccountReq);
+            } else {
+              int subtractionCount = userCreditAccountDao.updateSubtractionAmount(userCreditAccountReq);
+              if (1 != subtractionCount) {
+                status.setRollbackOnly();
+                throw new AppException(ResponseCode.USER_CREDIT_ACCOUNT_NO_AVAILABLE_AMOUNT.getCode(), ResponseCode.USER_CREDIT_ACCOUNT_NO_AVAILABLE_AMOUNT.getInfo());
+              }
+            }
           }
-
+          // 2. 保存账户订单
           userCreditOrderDao.insert(userCreditOrderReq);
-          // 保存任务
+          // 3. 写入任务
           taskDao.insert(task);
         }catch(DuplicateKeyException e) {
           status.setRollbackOnly();
@@ -105,7 +118,9 @@ public class CreditRepository implements ICreditRepository {
 
     } finally {
       dbRouter.clear();
-      lock.unlock();
+      if (lock.isLocked()) {
+        lock.unlock();
+      }
     }
 
     try {
@@ -127,9 +142,13 @@ public class CreditRepository implements ICreditRepository {
     try{
       dbRouter.doRouter(userId);
       UserCreditAccount userCreditAccount = userCreditAccountDao.queryUserCreditAccount(userCreditAccountReq);
+      BigDecimal availableAmount = BigDecimal.ZERO;
+      if (null != userCreditAccount) {
+        availableAmount = userCreditAccount.getAvailableAmount();
+      }
       return CreditAccountEntity.builder()
           .userId(userId)
-          .adjustAmount(userCreditAccount.getAvailableAmount())
+          .adjustAmount(availableAmount)
           .build();
     } finally {
       dbRouter.clear();

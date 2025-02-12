@@ -28,6 +28,7 @@ import cn.bugstack.infrastructure.persistent.dao.IRaffleActivityCountDao;
 import cn.bugstack.infrastructure.persistent.dao.IRaffleActivityDao;
 import cn.bugstack.infrastructure.persistent.dao.IRaffleActivityOrderDao;
 import cn.bugstack.infrastructure.persistent.dao.IRaffleActivitySkuDao;
+import cn.bugstack.infrastructure.persistent.dao.IUserCreditAccountDao;
 import cn.bugstack.infrastructure.persistent.dao.IUserRaffleOrderDao;
 import cn.bugstack.infrastructure.persistent.po.RaffleActivity;
 import cn.bugstack.infrastructure.persistent.po.RaffleActivityAccount;
@@ -36,6 +37,7 @@ import cn.bugstack.infrastructure.persistent.po.RaffleActivityAccountMonth;
 import cn.bugstack.infrastructure.persistent.po.RaffleActivityCount;
 import cn.bugstack.infrastructure.persistent.po.RaffleActivityOrder;
 import cn.bugstack.infrastructure.persistent.po.RaffleActivitySku;
+import cn.bugstack.infrastructure.persistent.po.UserCreditAccount;
 import cn.bugstack.infrastructure.persistent.po.UserRaffleOrder;
 import cn.bugstack.infrastructure.persistent.redis.IRedisService;
 import cn.bugstack.middleware.db.router.strategy.IDBRouterStrategy;
@@ -51,6 +53,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -79,6 +82,8 @@ public class ActivityRepository implements IActivityRepository {
   private IRaffleActivityAccountDayDao raffleActivityAccountDayDao;
   @Resource
   private IUserRaffleOrderDao userRaffleOrderDao;
+  @Resource
+  private IUserCreditAccountDao userCreditAccountDao;
 
 // 分库分表需要的:
   @Resource
@@ -632,6 +637,11 @@ public class ActivityRepository implements IActivityRepository {
       raffleActivityOrderReq.setOutBusinessNo(deliveryOrderEntity.getOutBusinessNo());
       RaffleActivityOrder raffleActivityOrderRes = raffleActivityOrderDao.queryRaffleActivityOrder(raffleActivityOrderReq);
 
+      if (null == raffleActivityOrderRes) {
+        if(lock.isLocked()) lock.unlock();
+        return;
+      }
+
       // 账户对象 - 总
       RaffleActivityAccount raffleActivityAccount = new RaffleActivityAccount();
       raffleActivityAccount.setUserId(raffleActivityOrderRes.getUserId());
@@ -730,6 +740,20 @@ public class ActivityRepository implements IActivityRepository {
           .build());
     }
     return skuProductEntities;
+  }
+
+  @Override
+  public BigDecimal queryUserCreditAccountAmount(String userId) {
+    try {
+      dbRouter.doRouter(userId);
+      UserCreditAccount userCreditAccountReq = new UserCreditAccount();
+      userCreditAccountReq.setUserId(userId);
+      UserCreditAccount userCreditAccount = userCreditAccountDao.queryUserCreditAccount(userCreditAccountReq);
+      if (null == userCreditAccount) return BigDecimal.ZERO;
+      return userCreditAccount.getAvailableAmount();
+    } finally {
+      dbRouter.clear();
+    }
   }
 
 

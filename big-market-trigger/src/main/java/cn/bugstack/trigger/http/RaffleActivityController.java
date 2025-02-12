@@ -311,8 +311,9 @@ public class RaffleActivityController implements IRaffleActivityService {
 
   }
 
+  @RequestMapping(value = "query_sku_product_list_by_activity_id", method = RequestMethod.POST)
   @Override
-  public Response<List<SkuProductResponseDTO>> querySkuProductListByActivityId(Long activityId) {
+  public Response<List<SkuProductResponseDTO>> querySkuProductListByActivityId(@RequestParam Long activityId) {
     try{
       log.info("查询sku商品集合开始 activityId:{}", activityId);
       // 1. 参数校验
@@ -359,8 +360,9 @@ public class RaffleActivityController implements IRaffleActivityService {
     }
   }
 
+  @RequestMapping(value = "query_user_credit_account", method = RequestMethod.POST)
   @Override
-  public Response<BigDecimal> queryUserCreditAccount(String userId) {
+  public Response<BigDecimal> queryUserCreditAccount(@RequestParam String userId) {
     try {
       log.info("查询用户积分值开始 userId:{}", userId);
       CreditAccountEntity creditAccountEntity = creditAdjustService.queryUserCreditAccount(userId);
@@ -379,8 +381,9 @@ public class RaffleActivityController implements IRaffleActivityService {
     }
   }
 
+  @RequestMapping(value = "credit_pay_exchange_sku", method = RequestMethod.POST)
   @Override
-  public Response<Boolean> creditPayExchangeSku(SkuProductShopCartRequestDTO request) {
+  public Response<Boolean> creditPayExchangeSku(@RequestBody SkuProductShopCartRequestDTO request) {
     try {
       log.info("积分兑换商品开始 userId:{} skuId: {}", request.getUserId(), request.getSku());
       // 先创建订单

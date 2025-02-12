@@ -22,6 +22,7 @@ public enum ResponseCode {
     ACCOUNT_MONTH_QUOTA_ERROR("ERR_BIZ_007","账户月额度不足"),
     ACCOUNT_DAY_QUOTA_ERROR("ERR_BIZ_008","账户日额度不足"),
     ACTIVITY_ORDER_ERROR("ERR_BIZ_009", "用户抽奖单已使用过，不可重复抽奖"),
+    USER_CREDIT_ACCOUNT_NO_AVAILABLE_AMOUNT("ERR_CREDIT_001", "用户积分账户额度不足"),
     ;
 
 

@@ -7,6 +7,7 @@ import cn.bugstack.domain.activity.model.entity.ActivityOrderEntity;
 import cn.bugstack.domain.activity.model.entity.ActivitySkuEntity;
 import cn.bugstack.domain.activity.model.entity.SkuRechargeEntity;
 import cn.bugstack.domain.activity.model.entity.UnpaidActivityOrderEntity;
+import cn.bugstack.domain.activity.model.valobj.OrderTradeTypeVO;
 import cn.bugstack.domain.activity.repository.IActivityRepository;
 import cn.bugstack.domain.activity.service.IRaffleActivityAccountQuotaService;
 import cn.bugstack.domain.activity.service.quota.policy.ITradePolicy;
@@ -17,6 +18,7 @@ import cn.bugstack.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -62,6 +64,14 @@ public abstract class AbstractRaffleActivityAccountQuota extends RaffleActivityA
         ActivityEntity activityEntity = queryRaffleActivityByActivityId(activitySkuEntity.getActivityId());
         // 2.3 查询次数信息（用户在活动上可参与的次数）
         ActivityCountEntity activityCountEntity = queryRaffleActivityCountByActivityCountId(activitySkuEntity.getActivityCountId());
+
+        // 2.4. 账户额度 【交易属性的兑换，需要校验额度账户】
+        if (OrderTradeTypeVO.credit_pay_trade.equals(skuRechargeEntity.getOrderTradeType())){
+            BigDecimal availableAmount = activityRepository.queryUserCreditAccountAmount(userId);
+            if (availableAmount.compareTo(activitySkuEntity.getProductAmount()) < 0) {
+                throw new AppException(ResponseCode.USER_CREDIT_ACCOUNT_NO_AVAILABLE_AMOUNT.getCode(), ResponseCode.USER_CREDIT_ACCOUNT_NO_AVAILABLE_AMOUNT.getInfo());
+            }
+        }
 
         // 3. 活动动作规则校验, 然后会执行一系列的动作(更新cache中的库存(减少), 更新减少数据库中sku的总库存(这个是我们公司给这个活动的库存预算))
         IActionChain actionChain = defaultActivityChainFactory.openActionChain();
